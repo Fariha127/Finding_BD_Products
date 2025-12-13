@@ -141,7 +141,7 @@
                                                         <Font name="System Bold" size="15.0" />
                                                     </font>
                                                 </Label>
-                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #888888;" text="Energy Drink" />
+                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #888888;" text="Soft Drink" />
                                                 <HBox alignment="CENTER_LEFT" spacing="5.0">
                                                     <children>
                                                         <Label text="৳ 25" textFill="#D32F2F">
@@ -223,7 +223,7 @@
                                                         <Font name="System Bold" size="15.0" />
                                                     </font>
                                                 </Label>
-                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #888888;" text="Pure &amp; Refreshing" />
+                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #888888;" text="Water" />
                                                 <HBox alignment="CENTER_LEFT" spacing="5.0">
                                                     <children>
                                                         <Label text="৳ 20" textFill="#D32F2F">
