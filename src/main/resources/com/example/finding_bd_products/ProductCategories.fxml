@@ -6,9 +6,13 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
@@ -55,7 +59,7 @@
                         </HBox>
                     </children>
                 </VBox>
-                <!-- Horizontal Navigation Bar -->
+
                 <HBox alignment="CENTER_LEFT" spacing="15.0" style="-fx-background-color: #F5F5F5; -fx-border-color: #E0E0E0; -fx-border-width: 0 0 1 0; -fx-padding: 15 25 15 25;">
                     <children>
                         <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#showHome" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: white; -fx-text-fill: #708090; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 25; -fx-border-color: #E0E0E0; -fx-border-radius: 25; -fx-cursor: hand; -fx-alignment: CENTER;" text="Home" />
@@ -78,8 +82,269 @@
                         <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                     </padding>
                     <children>
-                        <!-- Page Title -->
-                        <VBox spacing="10.0" />
+
+                        <VBox spacing="10.0">
+                            <children>
+                                <Label text="Product Categories" textFill="#2E7D32">
+                                    <font>
+                                        <Font name="System Bold" size="28.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Browse our wide range of Bangladeshi products by category" textFill="#708090">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+
+
+                        <GridPane fx:id="categoriesGrid" hgap="20.0" vgap="20.0">
+                            <!-- Category Card 1: Beverages -->
+                            <VBox prefHeight="180.0" prefWidth="220.0" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <effect>
+                                    <DropShadow offsetY="3.0">
+                                        <color>
+                                            <Color opacity="0.12" />
+                                        </color>
+                                    </DropShadow>
+                                </effect>
+                                <children>
+                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Beverages">
+                                        <font>
+                                            <Font name="System Bold" size="18.0" />
+                                        </font>
+                                    </Label>
+                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #888888;" text="Energy Drinks, Soft Drinks, Juices" wrapText="true" />
+                                    <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #2E7D32; -fx-font-weight: bold;" text="25+ Products →">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font>
+                                    </Label>
+                                </children>
+                            </VBox>
+
+
+                            <VBox prefHeight="180.0" prefWidth="220.0" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <effect>
+                                    <DropShadow offsetY="3.0">
+                                        <color>
+                                            <Color opacity="0.12" />
+                                        </color>
+                                    </DropShadow>
+                                </effect>
+                                <children>
+                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Hair Care">
+                                        <font>
+                                            <Font name="System Bold" size="18.0" />
+                                        </font>
+                                    </Label>
+                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #888888;" text="Hair Shampoo, Hair Oil" wrapText="true" />
+                                    <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #2E7D32; -fx-font-weight: bold;" text="15+ Products →">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font>
+                                    </Label>
+                                </children>
+                            </VBox>
+
+
+                            <VBox prefHeight="180.0" prefWidth="220.0" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                                <effect>
+                                    <DropShadow offsetY="3.0">
+                                        <color>
+                                            <Color opacity="0.12" />
+                                        </color>
+                                    </DropShadow>
+                                </effect>
+                                <children>
+                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Oral Care">
+                                        <font>
+                                            <Font name="System Bold" size="18.0" />
+                                        </font>
+                                    </Label>
+                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #888888;" text="Toothpaste, Mouthwash" wrapText="true" />
+                                    <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #2E7D32; -fx-font-weight: bold;" text="15+ Products →">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font>
+                                    </Label>
+                                </children>
+                            </VBox>
+
+
+                            <VBox prefHeight="180.0" prefWidth="220.0" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <effect>
+                                    <DropShadow offsetY="3.0">
+                                        <color>
+                                            <Color opacity="0.12" />
+                                        </color>
+                                    </DropShadow>
+                                </effect>
+                                <children>
+                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Snacks">
+                                        <font>
+                                            <Font name="System Bold" size="18.0" />
+                                        </font>
+                                    </Label>
+                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #888888;" text="Biscuits, Chips, Chanachur" wrapText="true" />
+                                    <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #2E7D32; -fx-font-weight: bold;" text="15+ Products →">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font>
+                                    </Label>
+                                </children>
+                            </VBox>
+
+
+                            <VBox prefHeight="180.0" prefWidth="220.0" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <effect>
+                                    <DropShadow offsetY="3.0">
+                                        <color>
+                                            <Color opacity="0.12" />
+                                        </color>
+                                    </DropShadow>
+                                </effect>
+                                <children>
+                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Food &amp; Grocery">
+                                        <font>
+                                            <Font name="System Bold" size="18.0" />
+                                        </font>
+                                    </Label>
+                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #888888;" text="Rice, Spices, Ready Mixes, Sauces, Mustard Oils, Rice Bran Oils, cooking essentials" wrapText="true" />
+                                    <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #2E7D32; -fx-font-weight: bold;" text="20+ Products →">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font>
+                                    </Label>
+                                </children>
+                            </VBox>
+
+
+                            <VBox prefHeight="180.0" prefWidth="220.0" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                <effect>
+                                    <DropShadow offsetY="3.0">
+                                        <color>
+                                            <Color opacity="0.12" />
+                                        </color>
+                                    </DropShadow>
+                                </effect>
+                                <children>
+                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Home Care">
+                                        <font>
+                                            <Font name="System Bold" size="18.0" />
+                                        </font>
+                                    </Label>
+                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #888888;" text="Cleaners, Handwash, Detergent, Hand Towel, Mosquito repellents, " wrapText="true" />
+                                    <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #2E7D32; -fx-font-weight: bold;" text="20+ Products →">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font>
+                                    </Label>
+                                </children>
+                            </VBox>
+
+                            <!-- Category Card 7: Health & Wellness -->
+                            <VBox prefHeight="180.0" prefWidth="220.0" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                <effect>
+                                    <DropShadow offsetY="3.0">
+                                        <color>
+                                            <Color opacity="0.12" />
+                                        </color>
+                                    </DropShadow>
+                                </effect>
+                                <children>
+                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Skin Care">
+                                        <font>
+                                            <Font name="System Bold" size="18.0" />
+                                        </font>
+                                    </Label>
+                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #888888;" text="Body Soap, Moisterizer, Body Lotion, Face Cleanser, Lip Care" wrapText="true" />
+                                    <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #2E7D32; -fx-font-weight: bold;" text="20+ Products →">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font>
+                                    </Label>
+                                </children>
+                            </VBox>
+
+                            <!-- Category Card 8: Baby Care -->
+                            <VBox prefHeight="180.0" prefWidth="220.0" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                <effect>
+                                    <DropShadow offsetY="3.0">
+                                        <color>
+                                            <Color opacity="0.12" />
+                                        </color>
+                                    </DropShadow>
+                                </effect>
+                                <children>
+                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Baby Care">
+                                        <font>
+                                            <Font name="System Bold" size="18.0" />
+                                        </font>
+                                    </Label>
+                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #888888;" text="Diapers, Baby Care products" wrapText="true" />
+                                    <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #2E7D32; -fx-font-weight: bold;" text="10+ Products →">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font>
+                                    </Label>
+                                </children>
+                            </VBox>
+
+
+                            <VBox prefHeight="180.0" prefWidth="220.0" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                <effect>
+                                    <DropShadow offsetY="3.0">
+                                        <color>
+                                            <Color opacity="0.12" />
+                                        </color>
+                                    </DropShadow>
+                                </effect>
+                                <children>
+                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Dairy Products">
+                                        <font>
+                                            <Font name="System Bold" size="18.0" />
+                                        </font>
+                                    </Label>
+                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #888888;" text="Milk, Milk Powder, Ghee, Yoghurt, Condensed Milk" wrapText="true" />
+                                    <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #2E7D32; -fx-font-weight: bold;" text="12+ Products →">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font>
+                                    </Label>
+                                </children>
+                            </VBox>
+
+                            <columnConstraints>
+                                <ColumnConstraints />
+                                <ColumnConstraints />
+                                <ColumnConstraints />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints />
+                                <RowConstraints />
+                                <RowConstraints />
+                            </rowConstraints>
+                        </GridPane>
                     </children>
                 </VBox>
             </content>
