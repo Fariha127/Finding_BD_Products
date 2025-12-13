@@ -10,294 +10,300 @@
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" 
-            fx:controller="com.example.finding_bd_products.HomeController"
-            prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #ffffff;">
-         <top>
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #2E7D32, #4CAF50);" BorderPane.alignment="CENTER">
-               <effect>
-                  <DropShadow offsetY="2.0">
-                     <color>
-                        <Color blue="0.20000000298023224" />
-                     </color>
-                  </DropShadow>
-               </effect>
-               <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
-                     <children>
-                        <Label text="  Deshi Store" textFill="WHITE">
-                           <font>
-                              <Font name="Arial Rounded MT Bold" size="36.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 7; -fx-padding: 5;">
-                     <children>
-                        <TextField fx:id="searchField" prefHeight="35.0" promptText="Search for products, categories, or brands..." style="-fx-background-color: transparent; -fx-border-color: transparent;" HBox.hgrow="ALWAYS">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <padding>
-                              <Insets left="15.0" />
-                           </padding>
-                        </TextField>
-                        <Button fx:id="searchButton" mnemonicParsing="false" onAction="#onSearch" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #DCDCDC; -fx-background-radius: 20; -fx-font-weight: bold; -fx-cursor: hand;" text="Search">
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                        </Button>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </top>
-         <padding>
-            <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />
-         </padding>
-         <left>
-            <VBox prefHeight="200.0" prefWidth="220.0" spacing="8.0" style="-fx-background-color: #F5F5F5; -fx-border-color: #E0E0E0; -fx-border-width: 0 1 0 0;" BorderPane.alignment="CENTER">
-               <padding>
-                  <Insets bottom="20.0" left="15.0" right="15.0" top="20.0" />
-               </padding>
-               <BorderPane.margin>
-                  <Insets />
-               </BorderPane.margin>
-               <children>
-                  <Separator prefWidth="200.0" style="-fx-background-color: #CCCCCC;" />
-                  <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#showHome" prefHeight="40.0" prefWidth="190.0" style="-fx-background-color: linear-gradient(to bottom, #2E7D32, #4CAF50); -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand; -fx-alignment: CENTER; -fx-padding: 0 0 0 15;" text="Home" />
-                  <Button fx:id="categoriesBtn" mnemonicParsing="false" onAction="#showCategories" prefHeight="40.0" prefWidth="190.0" style="-fx-background-color: white; -fx-text-fill: #708090; -fx-font-size: 14px; -fx-background-radius: 8; -fx-border-color: #E0E0E0; -fx-border-radius: 8; -fx-cursor: hand; -fx-padding: 0 0 0 15; -fx-font-weight: bold;" text="Product Categories" />
-                  <Button fx:id="newlyAddedBtn" mnemonicParsing="false" onAction="#showNewlyAdded" prefHeight="40.0" prefWidth="190.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-text-fill: #708090; -fx-font-size: 14px; -fx-cursor: hand; -fx-border-radius: 8; -fx-border-color: #E0E0E0; -fx-padding: 0 0 0 15; -fx-font-weight: bold;" text="Newly Added" />
-                  <Button fx:id="favouritesBtn" mnemonicParsing="false" onAction="#showFavourites" prefHeight="40.0" prefWidth="190.0" style="-fx-background-color: white; -fx-padding: 0 0 0 15; -fx-border-color: #E0E0E0; -fx-background-radius: 8; -fx-border-radius: 8; -fx-text-fill: #708090; -fx-font-size: 14px; -fx-font-weight: bold;" text="My Favourites" />
-               </children>
-            </VBox>
-         </left>
-         <center>
-            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background: white;" BorderPane.alignment="CENTER">
-               <content>
-                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="30.0" style="-fx-background-color: #FAFAFA;">
+<BorderPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.finding_bd_products.HomeController">
+    <top>
+        <VBox spacing="0.0" BorderPane.alignment="CENTER">
+            <children>
+                <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #2E7D32, #4CAF50);" BorderPane.alignment="CENTER">
+                    <effect>
+                        <DropShadow offsetY="2.0">
+                            <color>
+                                <Color blue="0.20000000298023224" />
+                            </color>
+                        </DropShadow>
+                    </effect>
+                    <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="15.0" />
+                          <Label text="  Deshi Store" textFill="WHITE">
+                              <font>
+                                  <Font name="Arial Rounded MT Bold" size="48.0" />
+                              </font>
                      <padding>
-                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                        <Insets left="12.0" top="20.0" />
                      </padding>
-                     <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="20.0" style="-fx-background-color: linear-gradient(to right, #FFF3E0, #FFECB3); -fx-padding: 20; -fx-background-radius: 10;">
-                           <effect>
-                              <DropShadow offsetY="2.0">
-                                 <color>
-                                    <Color opacity="0.10000000149011612" />
-                                 </color>
-                              </DropShadow>
-                           </effect>
-                           <children>
-                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="8.0">
-                                 <children>
-                                    <Label prefHeight="19.0" prefWidth="339.0" text="Welcome to Deshi Store !!" textFill="#E65100">
-                                       <font>
-                                          <Font name="System Bold" size="22.0" />
-                                       </font>
-                                    </Label>
-                                    <Label text="Explore authentic Bangladeshi groceries" textFill="SLATEGRAY">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                           </children>
+                          </Label>
+                  <Region prefHeight="200.0" prefWidth="200.0" />
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 7; -fx-padding: 5;">
+                            <children>
+                                <TextField fx:id="searchField" prefHeight="35.0" promptText="Search for products, categories, or brands..." style="-fx-background-color: transparent; -fx-border-color: transparent;" HBox.hgrow="ALWAYS">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets left="15.0" />
+                                    </padding>
+                                </TextField>
+                                <Button fx:id="searchButton" mnemonicParsing="false" onAction="#onSearch" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #DCDCDC; -fx-background-radius: 20; -fx-font-weight: bold; -fx-cursor: hand;" text="Search">
+                                    <HBox.margin>
+                                        <Insets right="5.0" />
+                                    </HBox.margin>
+                                </Button>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+                <!-- Horizontal Navigation Bar -->
+                <HBox alignment="CENTER_LEFT" spacing="15.0" style="-fx-background-color: #F5F5F5; -fx-border-color: #E0E0E0; -fx-border-width: 0 0 1 0; -fx-padding: 15 25 15 25;">
+                    <children>
+                        <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#showHome" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(to bottom, #2E7D32, #4CAF50); -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 25; -fx-cursor: hand; -fx-alignment: CENTER;" text="Home" />
+                        <Button fx:id="categoriesBtn" mnemonicParsing="false" onAction="#showCategories" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: white; -fx-text-fill: #708090; -fx-font-size: 14px; -fx-background-radius: 25; -fx-border-color: #E0E0E0; -fx-border-radius: 25; -fx-cursor: hand; -fx-font-weight: bold;" text="Product Categories" />
+                        <Button fx:id="newlyAddedBtn" mnemonicParsing="false" onAction="#showNewlyAdded" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: white; -fx-background-radius: 25; -fx-text-fill: #708090; -fx-font-size: 14px; -fx-cursor: hand; -fx-border-radius: 25; -fx-border-color: #E0E0E0; -fx-font-weight: bold;" text="Newly Added" />
+                        <Button fx:id="favouritesBtn" mnemonicParsing="false" onAction="#showFavourites" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-background-radius: 25; -fx-border-radius: 25; -fx-text-fill: #708090; -fx-font-size: 14px; -fx-font-weight: bold;" text="My Favourites" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+    <padding>
+        <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />
+    </padding>
+    <center>
+        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background: white;" BorderPane.alignment="CENTER">
+            <content>
+                <VBox prefHeight="200.0" prefWidth="100.0" spacing="30.0" style="-fx-background-color: #FAFAFA;">
+                    <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                    </padding>
+                    <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="0.0" spacing="20.0" style="-fx-background-color: linear-gradient(to right, #FFF3E0, #FFECB3); -fx-padding: 20; -fx-background-radius: 10;">
+                            <effect>
+                                <DropShadow offsetY="2.0">
+                                    <color>
+                                        <Color opacity="0.10000000149011612" />
+                                    </color>
+                                </DropShadow>
+                            </effect>
+                            <children>
+                                <VBox prefHeight="200.0" prefWidth="2200.0" spacing="8.0">
+                                    <children>
+                                        <Label prefHeight="32.0" prefWidth="547.0" text="Welcome to Deshi Store !!" textFill="#E65100">
+                                            <font>
+                                                <Font name="System Bold" size="22.0" />
+                                            </font>
+                                        </Label>
+                                        <Label prefHeight="21.0" prefWidth="526.0" text="Explore authentic Bangladeshi groceries" textFill="SLATEGRAY">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+                            </children>
                         </HBox>
                         <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-                                 <children>
-                                    <Label text="Recommended Bangladesh Products" textFill="#2e7d32">
-                                       <font>
-                                          <Font name="System Bold" size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Hyperlink text="View all" textFill="#2e7d32" />
-                                    <Region prefHeight="200.0" prefWidth="200.0" />
-                                 </children>
-                              </HBox>
-                              <Separator prefWidth="200.0" />
-                              <GridPane fx:id="recommendedGrid" hgap="20.0" vgap="20.0">
-                                 <children>
-                                    <!-- Product Card 1 -->
-                                    <VBox prefHeight="280.0" prefWidth="220.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 15;" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                       <effect>
-                                          <DropShadow offsetY="2.0">
-                                             <color>
-                                                <Color opacity="0.08" />
-                                             </color>
-                                          </DropShadow>
-                                       </effect>
-                                       <children>
-                                          <ImageView fitHeight="140.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8;" />
-                                          <Label style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Mojo">
-                                             <font>
-                                                <Font name="System Bold" size="15.0" />
-                                             </font>
-                                          </Label>
-                                          <Label text="Energy Drink" style="-fx-font-size: 12px; -fx-text-fill: #888888;" />
-                                          <HBox alignment="CENTER_LEFT" spacing="5.0">
-                                             <children>
-                                                <Label text="৳ 25" textFill="#D32F2F">
-                                                   <font>
-                                                      <Font name="System Bold" size="16.0" />
-                                                   </font>
+                            <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                                    <children>
+                                        <Label text="Recommended Bangladesh Products" textFill="#2e7d32">
+                                            <font>
+                                                <Font name="System Bold" size="20.0" />
+                                            </font>
+                                        </Label>
+                                        <Hyperlink text="View all" textFill="#2e7d32" />
+                                        <Region prefHeight="200.0" prefWidth="200.0" />
+                                    </children>
+                                </HBox>
+                                <Separator prefWidth="200.0" />
+                                <GridPane fx:id="recommendedGrid" hgap="20.0" vgap="20.0">
+                                    <children>
+                                        <!-- Product Card 1 -->
+                                        <VBox prefHeight="280.0" prefWidth="220.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 15;" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                            <effect>
+                                                <DropShadow offsetY="2.0">
+                                                    <color>
+                                                        <Color opacity="0.08" />
+                                                    </color>
+                                                </DropShadow>
+                                            </effect>
+                                            <children>
+                                                <ImageView fitHeight="140.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8;" />
+                                                <Label style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Mojo">
+                                                    <font>
+                                                        <Font name="System Bold" size="15.0" />
+                                                    </font>
                                                 </Label>
-                                                <Label text="/250ml" textFill="#888888">
-                                                   <font>
-                                                      <Font size="12.0" />
-                                                   </font>
+                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #888888;" text="Energy Drink" />
+                                                <HBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="৳ 25" textFill="#D32F2F">
+                                                            <font>
+                                                                <Font name="System Bold" size="16.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Label text="/250ml" textFill="#888888">
+                                                            <font>
+                                                                <Font size="12.0" />
+                                                            </font>
+                                                        </Label>
+                                                    </children>
+                                                </HBox>
+                                                <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                                <HBox prefHeight="100.0" prefWidth="200.0" spacing="8.0">
+                                                    <children>
+                                                        <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="45.0" style="-fx-background-color: #FFEBEE; -fx-text-fill: #D32F2F; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px;" text="♡" />
+                                                        <Button mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 12px; -fx-font-weight: bold;" text="Add to Cart" HBox.hgrow="ALWAYS" />
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+
+                                        <!-- Product Card 2 -->
+                                        <VBox prefHeight="280.0" prefWidth="220.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 15;" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                            <effect>
+                                                <DropShadow offsetY="2.0">
+                                                    <color>
+                                                        <Color opacity="0.08" />
+                                                    </color>
+                                                </DropShadow>
+                                            </effect>
+                                            <children>
+                                                <ImageView fitHeight="140.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8;" />
+                                                <Label style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Mediplus DS">
+                                                    <font>
+                                                        <Font name="System Bold" size="15.0" />
+                                                    </font>
                                                 </Label>
-                                             </children>
-                                          </HBox>
-                                          <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                                          <HBox prefHeight="100.0" prefWidth="200.0" spacing="8.0">
-                                             <children>
-                                                <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="45.0" style="-fx-background-color: #FFEBEE; -fx-text-fill: #D32F2F; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px;" text="♥" />
-                                                <Button mnemonicParsing="false" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 12px; -fx-font-weight: bold;" text="Add to Cart" HBox.hgrow="ALWAYS" prefHeight="32.0" />
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                    
-                                    <!-- Product Card 2 -->
-                                    <VBox prefHeight="280.0" prefWidth="220.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 15;" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                       <effect>
-                                          <DropShadow offsetY="2.0">
-                                             <color>
-                                                <Color opacity="0.08" />
-                                             </color>
-                                          </DropShadow>
-                                       </effect>
-                                       <children>
-                                          <ImageView fitHeight="140.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8;" />
-                                          <Label style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Mediplus DS">
-                                             <font>
-                                                <Font name="System Bold" size="15.0" />
-                                             </font>
-                                          </Label>
-                                          <Label text="Toothpaste" style="-fx-font-size: 12px; -fx-text-fill: #888888;" />
-                                          <HBox alignment="CENTER_LEFT" spacing="5.0">
-                                             <children>
-                                                <Label text="৳ 85" textFill="#D32F2F">
-                                                   <font>
-                                                      <Font name="System Bold" size="16.0" />
-                                                   </font>
+                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #888888;" text="Toothpaste" />
+                                                <HBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="৳ 85" textFill="#D32F2F">
+                                                            <font>
+                                                                <Font name="System Bold" size="16.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Label text="/100g" textFill="#888888">
+                                                            <font>
+                                                                <Font size="12.0" />
+                                                            </font>
+                                                        </Label>
+                                                    </children>
+                                                </HBox>
+                                                <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                                <HBox prefHeight="100.0" prefWidth="200.0" spacing="8.0">
+                                                    <children>
+                                                        <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="45.0" style="-fx-background-color: #FFEBEE; -fx-text-fill: #D32F2F; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px;" text="♡" />
+                                                        <Button mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 12px; -fx-font-weight: bold;" text="Add to Cart" HBox.hgrow="ALWAYS" />
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+
+                                        <!-- Product Card 3 -->
+                                        <VBox prefHeight="280.0" prefWidth="220.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 15;" GridPane.columnIndex="2">
+                                            <effect>
+                                                <DropShadow offsetY="2.0">
+                                                    <color>
+                                                        <Color opacity="0.08" />
+                                                    </color>
+                                                </DropShadow>
+                                            </effect>
+                                            <children>
+                                                <ImageView fitHeight="140.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8;" />
+                                                <Label style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Spa Drinking Water">
+                                                    <font>
+                                                        <Font name="System Bold" size="15.0" />
+                                                    </font>
                                                 </Label>
-                                                <Label text="/100g" textFill="#888888">
-                                                   <font>
-                                                      <Font size="12.0" />
-                                                   </font>
+                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #888888;" text="Pure &amp; Refreshing" />
+                                                <HBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="৳ 20" textFill="#D32F2F">
+                                                            <font>
+                                                                <Font name="System Bold" size="16.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Label text="/500ml" textFill="#888888">
+                                                            <font>
+                                                                <Font size="12.0" />
+                                                            </font>
+                                                        </Label>
+                                                    </children>
+                                                </HBox>
+                                                <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                                <HBox prefHeight="100.0" prefWidth="200.0" spacing="8.0">
+                                                    <children>
+                                                        <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="45.0" style="-fx-background-color: #FFEBEE; -fx-text-fill: #D32F2F; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px;" text="♡" />
+                                                        <Button mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 12px; -fx-font-weight: bold;" text="Add to Cart" HBox.hgrow="ALWAYS" />
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+
+                                        <!-- Product Card 4 -->
+                                        <VBox prefHeight="280.0" prefWidth="220.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 15;" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                            <effect>
+                                                <DropShadow offsetY="2.0">
+                                                    <color>
+                                                        <Color opacity="0.08" />
+                                                    </color>
+                                                </DropShadow>
+                                            </effect>
+                                            <children>
+                                                <ImageView fitHeight="140.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8;" />
+                                                <Label style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Meril Milk Soap">
+                                                    <font>
+                                                        <Font name="System Bold" size="15.0" />
+                                                    </font>
                                                 </Label>
-                                             </children>
-                                          </HBox>
-                                          <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                                          <HBox prefHeight="100.0" prefWidth="200.0" spacing="8.0">
-                                             <children>
-                                                <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="45.0" style="-fx-background-color: #FFEBEE; -fx-text-fill: #D32F2F; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px;" text="♥" />
-                                                <Button mnemonicParsing="false" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 12px; -fx-font-weight: bold;" text="Add to Cart" HBox.hgrow="ALWAYS" prefHeight="32.0" />
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                    
-                                    <!-- Product Card 3 -->
-                                    <VBox prefHeight="280.0" prefWidth="220.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 15;" GridPane.columnIndex="2" GridPane.rowIndex="0">
-                                       <effect>
-                                          <DropShadow offsetY="2.0">
-                                             <color>
-                                                <Color opacity="0.08" />
-                                             </color>
-                                          </DropShadow>
-                                       </effect>
-                                       <children>
-                                          <ImageView fitHeight="140.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8;" />
-                                          <Label style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Spa Drinking Water">
-                                             <font>
-                                                <Font name="System Bold" size="15.0" />
-                                             </font>
-                                          </Label>
-                                          <Label text="Pure &amp; Refreshing" style="-fx-font-size: 12px; -fx-text-fill: #888888;" />
-                                          <HBox alignment="CENTER_LEFT" spacing="5.0">
-                                             <children>
-                                                <Label text="৳ 20" textFill="#D32F2F">
-                                                   <font>
-                                                      <Font name="System Bold" size="16.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="/500ml" textFill="#888888">
-                                                   <font>
-                                                      <Font size="12.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </HBox>
-                                          <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                                          <HBox prefHeight="100.0" prefWidth="200.0" spacing="8.0">
-                                             <children>
-                                                <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="45.0" style="-fx-background-color: #FFEBEE; -fx-text-fill: #D32F2F; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px;" text="♥" />
-                                                <Button mnemonicParsing="false" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 12px; -fx-font-weight: bold;" text="Add to Cart" HBox.hgrow="ALWAYS" prefHeight="32.0" />
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                    
-                                    <!-- Product Card 4 -->
-                                    <VBox prefHeight="280.0" prefWidth="220.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 15;" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                                       <effect>
-                                          <DropShadow offsetY="2.0">
-                                             <color>
-                                                <Color opacity="0.08" />
-                                             </color>
-                                          </DropShadow>
-                                       </effect>
-                                       <children>
-                                          <ImageView fitHeight="140.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8;" />
-                                          <Label style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Meril Milk Soap">
-                                             <font>
-                                                <Font name="System Bold" size="15.0" />
-                                             </font>
-                                          </Label>
-                                          <Label text="Moisturizing Soap" style="-fx-font-size: 12px; -fx-text-fill: #888888;" />
-                                          <HBox alignment="CENTER_LEFT" spacing="5.0">
-                                             <children>
-                                                <Label text="৳ 35" textFill="#D32F2F">
-                                                   <font>
-                                                      <Font name="System Bold" size="16.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="/75g" textFill="#888888">
-                                                   <font>
-                                                      <Font size="12.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </HBox>
-                                          <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                                          <HBox prefHeight="100.0" prefWidth="200.0" spacing="8.0">
-                                             <children>
-                                                <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="45.0" style="-fx-background-color: #FFEBEE; -fx-text-fill: #D32F2F; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px;" text="♥" />
-                                                <Button mnemonicParsing="false" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 12px; -fx-font-weight: bold;" text="Add to Cart" HBox.hgrow="ALWAYS" prefHeight="32.0" />
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </GridPane>
-                           </children>
+                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #888888;" text="Moisturizing Soap" />
+                                                <HBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="৳ 35" textFill="#D32F2F">
+                                                            <font>
+                                                                <Font name="System Bold" size="16.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Label text="/75g" textFill="#888888">
+                                                            <font>
+                                                                <Font size="12.0" />
+                                                            </font>
+                                                        </Label>
+                                                    </children>
+                                                </HBox>
+                                                <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                                <HBox prefHeight="100.0" prefWidth="200.0" spacing="8.0">
+                                                    <children>
+                                                        <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="45.0" style="-fx-background-color: #FFEBEE; -fx-text-fill: #D32F2F; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px;" text="♥" />
+                                                        <Button mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 12px; -fx-font-weight: bold;" text="Add to Cart" HBox.hgrow="ALWAYS" />
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                    <columnConstraints>
+                                        <ColumnConstraints />
+                                        <ColumnConstraints />
+                                        <ColumnConstraints />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                    </rowConstraints>
+                                </GridPane>
+                            </children>
                         </VBox>
-                     </children>
-                  </VBox>
-               </content>
-            </ScrollPane>
-         </center>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
 </BorderPane>
