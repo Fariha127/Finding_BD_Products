@@ -1,16 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER_NAME">
-   <children>
-      <BorderPane layoutX="50.0" layoutY="33.0" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #ffffff;">
-         <top>
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0" style="-fx-background-color: #2E7D32; -fx-background-color: #4CAF50;" BorderPane.alignment="CENTER" />
-         </top>
-      </BorderPane>
-   </children>
+    <children>
+        <BorderPane layoutX="167.0" layoutY="89.0" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #ffffff;">
+            <top>
+                <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom, #2E7D32, #4CAF50);">
+                            <effect>
+                                <DropShadow offsetY="2.0">
+                                    <color>
+                                        <Color red="0.019999999552965164" green="0.019999999552965164" blue="0.019999999552965164" />
+                                    </color>
+                                </DropShadow>
+                            </effect>
+                            <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="15.0" />
+                                <Label text="Deshi Store" textFill="WHITE">
+                                    <opaqueInsets>
+                                        <Insets left="12.0" top="20.0" />
+                                    </opaqueInsets>
+                                    <font>
+                                        <Font name="Arial Rounded MT Bold" size="48.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets left="12.0" top="20.0" />
+                                    </padding>
+                                </Label>
+                                <Region prefHeight="200.0" prefWidth="200.0" />
+                            </children>
+                        </VBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 7; -fx-padding: 5;">
+                            <children>
+                                <TextField fx:id="searchField" prefHeight="35.0" promptText="Search for products, categories, or brands..." style="-fx-background-color: transparent; -fx-border-color: transparent;" HBox.hgrow="ALWAYS">
+                                    <padding>
+                                        <Insets left="15.0" />
+                                    </padding>
+                                </TextField>
+                                <Button fx:id="searchButton" mnemonicParsing="false" onAction="#onSearch" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #DCDCDC; -fx-background-radius: 20; -fx-font-weight: bold; -fx-cursor: hand;" text="Search" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </top>
+        </BorderPane>
+    </children>
 </AnchorPane>
+
