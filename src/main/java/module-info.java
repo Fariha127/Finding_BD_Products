@@ -10,6 +10,7 @@ module com.example.finding_bd_products {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.desktop;
 
     opens com.example.finding_bd_products to javafx.fxml;
     exports com.example.finding_bd_products;
