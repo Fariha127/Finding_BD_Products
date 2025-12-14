@@ -74,6 +74,13 @@
                </padding>
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-background-radius: 12; -fx-border-radius: 12; -fx-padding: 25;">
+                     <effect>
+                        <DropShadow offsetY="2.0">
+                           <color>
+                              <Color opacity="0.10000000149011612" />
+                           </color>
+                        </DropShadow>
+                     </effect>
                      <children>
                         <Region prefHeight="250.0" prefWidth="300.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 10;" />
                         <Label fx:id="productNameLabel" text="Product Name" textFill="#333333">
@@ -122,13 +129,6 @@
                            </children>
                         </HBox>
                      </children>
-                     <effect>
-                        <DropShadow offsetY="2.0">
-                           <color>
-                              <Color opacity="0.10000000149011612" />
-                           </color>
-                        </DropShadow>
-                     </effect>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-width: 1; -fx-border-color: #E0E0E0;">
                      <effect>
@@ -184,11 +184,8 @@
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #E0E0E0; -fx-border-width: 1;">
                      <children>
-                        <Label text="Customer Reviews" textFill="#2e7f32">
-                           <font>
-                              <Font name="System Bold" size="20.0" />
-                           </font></Label>
-                        <VBox fx:id="reviewsContainer" prefHeight="200.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 25;" />
+                        <Label text="Label" />
+                        <VBox prefHeight="200.0" prefWidth="100.0" />
                      </children>
                      <effect>
                         <DropShadow offsetY="2.0">
