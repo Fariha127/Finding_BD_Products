@@ -83,6 +83,20 @@ public class ProductDetailsController {
         return productDatabase.get(productId);
     }
 
+    public void setProduct(String productId) {
+        this.currentProduct = productDatabase.get(productId);
+        if (currentProduct != null) {
+            displayProductDetails();
+            loadReviews();
+        }
+    }
+
+    public void setProduct(Product product) {
+        this.currentProduct = product;
+        displayProductDetails();
+        loadReviews();
+    }
+
     private void loadPage(String fxmlFile) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
