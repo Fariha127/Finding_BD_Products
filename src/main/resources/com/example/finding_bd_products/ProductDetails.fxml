@@ -15,7 +15,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.finding_bd_products.ProductDetailsController">
+<BorderPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo_finding_bd_products.ProductDetailsController">
     <top>
         <VBox spacing="0.0" BorderPane.alignment="CENTER">
             <children>
@@ -125,8 +125,8 @@
                                         <Insets top="15.0" />
                                     </VBox.margin>
                                     <children>
-                                        <Button fx:id="recommendButton" mnemonicParsing="false" onAction="#onRecommendClick" prefHeight="45.0" prefWidth="180.0" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 14; -fx-font-weight: bold; -fx-cursor: hand;" text="👍 Recommend" />
-                                        <Button mnemonicParsing="false" onAction="#onAddToCart" prefHeight="45.0" prefWidth="180.0" style="-fx-background-color: #4CAF50; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold; -fx-cursor: hand;" text="Add to Cart" />
+                                        <Button fx:id="recommendButton" mnemonicParsing="false" onAction="#onRecommendClick" prefHeight="45.0" prefWidth="180.0" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 14; -fx-font-weight: bold; -fx-cursor: hand;" text="👍 Recommend" textFill="WHITE" />
+                                        <Button fx:id="favouriteButton" mnemonicParsing="false" onAction="#onAddToFavourites" prefHeight="45.0" prefWidth="180.0" style="-fx-background-color: #E91E63; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold; -fx-cursor: hand;" text="♡ Favourite" />
                                     </children>
                                 </HBox>
                             </children>
