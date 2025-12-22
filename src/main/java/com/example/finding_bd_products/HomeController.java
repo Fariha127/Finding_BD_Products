@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -57,6 +58,61 @@ public class HomeController {
     @FXML
     protected void onSearch() {
         String searchText = searchField.getText();
+    }
+
+    public void initialize() {
+        if (recommendedGrid != null) {
+            loadRecommendedProducts();
+        }
+    }
+
+    private void loadRecommendedProducts() {
+        recommendedGrid.getChildren().clear();
+
+        Product[] recommended = {
+                ProductDetailsController.getProduct("mojo"),
+                ProductDetailsController.getProduct("mediplus"),
+                ProductDetailsController.getProduct("spa-water"),
+                ProductDetailsController.getProduct("meril-soap"),
+                ProductDetailsController.getProduct("shejan-juice"),
+                ProductDetailsController.getProduct("pran-potata"),
+                ProductDetailsController.getProduct("ruchi-chanachur"),
+                ProductDetailsController.getProduct("bashundhara-towel"),
+                ProductDetailsController.getProduct("revive-lotion"),
+                ProductDetailsController.getProduct("jui-oil"),
+                ProductDetailsController.getProduct("radhuni-tumeric"),
+                ProductDetailsController.getProduct("pran-ghee")
+        };
+        int col = 0;
+        int row = 0;
+        for (Product product : recommended) {
+            if (product != null) {
+                VBox card = createProductCard(product);
+                recommendedGrid.add(card, col, row);
+                col++;
+                if (col > 2) {
+                    col = 0;
+                    row++;
+                }
+            }
+        }
+    }
+
+
+    private void navigateToProductDetails(String productId) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ProductDetails.fxml"));
+            Parent root = loader.load();
+
+            ProductDetailsController controller = loader.getController();
+            controller.setProduct(productId);
+
+            Stage stage = (Stage) homeBtn.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadPage(String fxmlFile) {
