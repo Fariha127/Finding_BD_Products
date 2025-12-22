@@ -75,19 +75,20 @@ public class HomeController {
     private void loadRecommendedProducts() {
         recommendedGrid.getChildren().clear();
 
+        DatabaseManager dbManager = DatabaseManager.getInstance();
         Product[] recommended = {
-                ProductDetailsController.getProduct("mojo"),
-                ProductDetailsController.getProduct("mediplus"),
-                ProductDetailsController.getProduct("spa-water"),
-                ProductDetailsController.getProduct("meril-soap"),
-                ProductDetailsController.getProduct("shejan-juice"),
-                ProductDetailsController.getProduct("pran-potata"),
-                ProductDetailsController.getProduct("ruchi-chanachur"),
-                ProductDetailsController.getProduct("bashundhara-towel"),
-                ProductDetailsController.getProduct("revive-lotion"),
-                ProductDetailsController.getProduct("jui-oil"),
-                ProductDetailsController.getProduct("radhuni-tumeric"),
-                ProductDetailsController.getProduct("pran-ghee")
+                dbManager.getProduct("mojo"),
+                dbManager.getProduct("mediplus"),
+                dbManager.getProduct("spa-water"),
+                dbManager.getProduct("meril-soap"),
+                dbManager.getProduct("shejan-juice"),
+                dbManager.getProduct("pran-potata"),
+                dbManager.getProduct("ruchi-chanachur"),
+                dbManager.getProduct("bashundhara-towel"),
+                dbManager.getProduct("revive-lotion"),
+                dbManager.getProduct("jui-oil"),
+                dbManager.getProduct("radhuni-tumeric"),
+                dbManager.getProduct("pran-ghee")
         };
 
         int col = 0;
