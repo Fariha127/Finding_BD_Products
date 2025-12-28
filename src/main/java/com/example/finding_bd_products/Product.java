@@ -47,7 +47,7 @@ public class Product {
         averageRating = sum / reviews.size();
     }
 
-    // Getters and Setters
+    
     public String getProductId() { return productId; }
     public void setProductId(String productId) { this.productId = productId; }
 

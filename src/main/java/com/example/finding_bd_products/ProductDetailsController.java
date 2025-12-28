@@ -84,7 +84,6 @@ public class ProductDetailsController {
         if (!hasRecommended) {
             currentProduct.addRecommendation();
 
-            // Update database
             dbManager.incrementRecommendationCount(currentProduct.getProductId());
 
             recommendationCountLabel.setText(currentProduct.getRecommendationCount() + " Recommendations");
