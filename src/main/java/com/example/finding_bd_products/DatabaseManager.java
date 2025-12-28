@@ -27,7 +27,7 @@ public class DatabaseManager {
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
 
-            // Create Products table
+
             String createProductsTable = """
                 CREATE TABLE IF NOT EXISTS products (
                     product_id TEXT PRIMARY KEY,
@@ -41,7 +41,7 @@ public class DatabaseManager {
                 """;
             stmt.execute(createProductsTable);
 
-            // Create Reviews table
+
             String createReviewsTable = """
                 CREATE TABLE IF NOT EXISTS reviews (
                     review_id TEXT PRIMARY KEY,
@@ -62,7 +62,76 @@ public class DatabaseManager {
                 """;
             stmt.execute(createFavouritesTable);
 
-            // Check if products table is empty and seed data
+            // Users table
+            String createUsersTable = """
+                CREATE TABLE IF NOT EXISTS users (
+                    user_id TEXT PRIMARY KEY,
+                    full_name TEXT NOT NULL,
+                    email TEXT UNIQUE NOT NULL,
+                    password TEXT NOT NULL,
+                    phone_number TEXT NOT NULL,
+                    date_of_birth TEXT,
+                    gender TEXT,
+                    city TEXT,
+                    profile_picture TEXT,
+                    account_status TEXT DEFAULT 'pending',
+                    user_type TEXT DEFAULT 'user'
+                )
+                """;
+            stmt.execute(createUsersTable);
+
+            // Company Vendors table
+            String createCompanyVendorsTable = """
+                CREATE TABLE IF NOT EXISTS company_vendors (
+                    vendor_id TEXT PRIMARY KEY,
+                    full_name TEXT NOT NULL,
+                    designation TEXT NOT NULL,
+                    company_name TEXT NOT NULL,
+                    email TEXT UNIQUE NOT NULL,
+                    password TEXT NOT NULL,
+                    phone_number TEXT NOT NULL,
+                    company_registration_number TEXT,
+                    bsti_certificate_number TEXT,
+                    company_address TEXT NOT NULL,
+                    tin_number TEXT,
+                    company_logo TEXT,
+                    account_status TEXT DEFAULT 'pending'
+                )
+                """;
+            stmt.execute(createCompanyVendorsTable);
+
+            // Retail Vendors table
+            String createRetailVendorsTable = """
+                CREATE TABLE IF NOT EXISTS retail_vendors (
+                    vendor_id TEXT PRIMARY KEY,
+                    owner_name TEXT NOT NULL,
+                    shop_name TEXT NOT NULL,
+                    email TEXT UNIQUE NOT NULL,
+                    password TEXT NOT NULL,
+                    phone_number TEXT NOT NULL,
+                    business_registration_number TEXT,
+                    trade_license_number TEXT,
+                    shop_address TEXT NOT NULL,
+                    tin_number TEXT,
+                    shop_logo TEXT,
+                    account_status TEXT DEFAULT 'pending'
+                )
+                """;
+            stmt.execute(createRetailVendorsTable);
+
+            // Admin table
+            String createAdminTable = """
+                CREATE TABLE IF NOT EXISTS admins (
+                    admin_id TEXT PRIMARY KEY,
+                    email TEXT UNIQUE NOT NULL,
+                    password TEXT NOT NULL
+                )
+                """;
+            stmt.execute(createAdminTable);
+
+            // Create default admin if not exists
+            createDefaultAdmin();
+
             if (isProductsTableEmpty()) {
                 seedInitialData();
             }
@@ -84,7 +153,7 @@ public class DatabaseManager {
     }
 
     private void seedInitialData() {
-        // Insert products matching Home.fxml
+        
         insertProduct("mojo", "Mojo", "Soft Drink", 25, "250ml", "Beverages");
         insertProduct("mediplus", "Mediplus DS", "Toothpaste", 85, "100g", "Oral Care");
         insertProduct("spa-water", "Spa Drinking Water", "Water", 20, "500ml", "Beverages");
@@ -98,7 +167,7 @@ public class DatabaseManager {
         insertProduct("radhuni-tumeric", "Radhuni Tumeric", "Powder", 55, "100g", "Food & Grocery");
         insertProduct("pran-ghee", "Pran Premium Ghee", "Cooking Ghee", 250, "500g", "Food & Grocery");
 
-        // Add sample reviews
+
         insertReview("r1", "mojo", "Ahmed Khan", "Great energy drink! Very refreshing.", 5);
         insertReview("r2", "mojo", "Fatima Rahman", "Good taste but a bit sweet.", 4);
         updateRecommendationCount("mojo", 15);
@@ -230,7 +299,7 @@ public class DatabaseManager {
         }
     }
 
-    // Review operations
+    // Review related methods
     public void insertReview(String reviewId, String productId, String userName, String comment, int rating) {
         String sql = "INSERT OR REPLACE INTO reviews (review_id, product_id, user_name, comment, rating) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
@@ -313,6 +382,203 @@ public class DatabaseManager {
             e.printStackTrace();
         }
         return favourites;
+    }
+
+    // ============ Authentication Methods ============
+
+    private void createDefaultAdmin() {
+        String checkSql = "SELECT COUNT(*) FROM admins";
+        String insertSql = "INSERT INTO admins (admin_id, email, password) VALUES (?, ?, ?)";
+        
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(checkSql)) {
+            
+            if (rs.next() && rs.getInt(1) == 0) {
+                // No admin exists, create default one
+                try (PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
+                    pstmt.setString(1, "admin001");
+                    pstmt.setString(2, "admin@findingbd.com");
+                    pstmt.setString(3, "admin123"); // In production, this should be hashed
+                    pstmt.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Admin login
+    public boolean authenticateAdmin(String email, String password) {
+        String sql = "SELECT * FROM admins WHERE email = ? AND password = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, email);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // User Registration
+    public boolean registerUser(User user) {
+        String sql = "INSERT INTO users (user_id, full_name, email, password, phone_number, date_of_birth, gender, city, account_status, user_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, user.getUserId());
+            pstmt.setString(2, user.getFullName());
+            pstmt.setString(3, user.getEmail());
+            pstmt.setString(4, user.getPassword());
+            pstmt.setString(5, user.getPhoneNumber());
+            pstmt.setString(6, user.getDateOfBirth());
+            pstmt.setString(7, user.getGender());
+            pstmt.setString(8, user.getCity());
+            pstmt.setString(9, "pending");
+            pstmt.setString(10, "user");
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // User Login
+    public User authenticateUser(String email, String password) {
+        String sql = "SELECT * FROM users WHERE email = ? AND password = ? AND account_status = 'approved'";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, email);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new User(
+                    rs.getString("user_id"),
+                    rs.getString("full_name"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    rs.getString("phone_number"),
+                    rs.getString("date_of_birth"),
+                    rs.getString("gender"),
+                    rs.getString("user_type"),
+                    rs.getString("account_status")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Company Vendor Registration
+    public boolean registerCompanyVendor(CompanyVendor vendor) {
+        String sql = "INSERT INTO company_vendors (vendor_id, full_name, designation, company_name, email, password, phone_number, company_registration_number, bsti_certificate_number, company_address, tin_number, account_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, vendor.getVendorId());
+            pstmt.setString(2, vendor.getFullName());
+            pstmt.setString(3, vendor.getDesignation());
+            pstmt.setString(4, vendor.getCompanyName());
+            pstmt.setString(5, vendor.getEmail());
+            pstmt.setString(6, vendor.getPassword());
+            pstmt.setString(7, vendor.getPhoneNumber());
+            pstmt.setString(8, vendor.getCompanyRegistrationNumber());
+            pstmt.setString(9, vendor.getBstiCertificateNumber());
+            pstmt.setString(10, vendor.getCompanyAddress());
+            pstmt.setString(11, vendor.getTinNumber());
+            pstmt.setString(12, "pending");
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Company Vendor Login
+    public CompanyVendor authenticateCompanyVendor(String email, String password) {
+        String sql = "SELECT * FROM company_vendors WHERE email = ? AND password = ? AND account_status = 'approved'";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, email);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new CompanyVendor(
+                    rs.getString("vendor_id"),
+                    rs.getString("full_name"),
+                    rs.getString("designation"),
+                    rs.getString("company_name"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    rs.getString("phone_number"),
+                    rs.getString("company_registration_number"),
+                    rs.getString("bsti_certificate_number"),
+                    rs.getString("company_address"),
+                    rs.getString("tin_number"),
+                    rs.getString("account_status")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Retail Vendor Registration
+    public boolean registerRetailVendor(RetailVendor vendor) {
+        String sql = "INSERT INTO retail_vendors (vendor_id, owner_name, shop_name, email, password, phone_number, business_registration_number, trade_license_number, shop_address, tin_number, account_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, vendor.getVendorId());
+            pstmt.setString(2, vendor.getOwnerName());
+            pstmt.setString(3, vendor.getShopName());
+            pstmt.setString(4, vendor.getEmail());
+            pstmt.setString(5, vendor.getPassword());
+            pstmt.setString(6, vendor.getPhoneNumber());
+            pstmt.setString(7, vendor.getBusinessRegistrationNumber());
+            pstmt.setString(8, vendor.getTradeLicenseNumber());
+            pstmt.setString(9, vendor.getShopAddress());
+            pstmt.setString(10, vendor.getTinNumber());
+            pstmt.setString(11, "pending");
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Retail Vendor Login
+    public RetailVendor authenticateRetailVendor(String email, String password) {
+        String sql = "SELECT * FROM retail_vendors WHERE email = ? AND password = ? AND account_status = 'approved'";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, email);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new RetailVendor(
+                    rs.getString("vendor_id"),
+                    rs.getString("owner_name"),
+                    rs.getString("shop_name"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    rs.getString("phone_number"),
+                    rs.getString("business_registration_number"),
+                    rs.getString("trade_license_number"),
+                    rs.getString("shop_address"),
+                    rs.getString("tin_number"),
+                    rs.getString("account_status")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
