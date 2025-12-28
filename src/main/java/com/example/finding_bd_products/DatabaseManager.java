@@ -299,6 +299,17 @@ public class DatabaseManager {
         }
     }
 
+    public void decrementRecommendationCount(String productId) {
+        String sql = "UPDATE products SET recommendation_count = recommendation_count - 1 WHERE product_id = ? AND recommendation_count > 0";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, productId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Review related methods
     public void insertReview(String reviewId, String productId, String userName, String comment, int rating) {
         String sql = "INSERT OR REPLACE INTO reviews (review_id, product_id, user_name, comment, rating) VALUES (?, ?, ?, ?, ?)";
@@ -358,6 +369,22 @@ public class DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isFavourite(String productId) {
+        String sql = "SELECT COUNT(*) FROM favourites WHERE product_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, productId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public List<Product> getFavouriteProducts() {

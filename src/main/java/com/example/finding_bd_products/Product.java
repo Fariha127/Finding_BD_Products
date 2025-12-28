@@ -30,6 +30,12 @@ public class Product {
         this.recommendationCount++;
     }
 
+    public void removeRecommendation() {
+        if (this.recommendationCount > 0) {
+            this.recommendationCount--;
+        }
+    }
+
     public void addReview(Review review) {
         this.reviews.add(review);
         calculateAverageRating();
