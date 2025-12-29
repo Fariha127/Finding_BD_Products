@@ -9,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -38,6 +40,9 @@ public class HomeController {
 
     @FXML
     private Button favouritesBtn;
+
+    @FXML
+    private Button favouriteCategoriesBtn;
 
     @FXML
     private GridPane recommendedGrid;
@@ -92,6 +97,11 @@ public class HomeController {
     }
 
     @FXML
+    protected void showFavouriteCategories() {
+        loadPage("FavouriteCategories.fxml");
+    }
+
+    @FXML
     protected void onSearch() {
         String searchText = searchField.getText();
     }
@@ -111,7 +121,7 @@ public class HomeController {
                 dbManager.getProduct("mediplus"),
                 dbManager.getProduct("spa-water"),
                 dbManager.getProduct("meril-soap"),
-                dbManager.getProduct("shejan-juice"),
+                dbManager.getProduct("shezan-juice"),
                 dbManager.getProduct("pran-potata"),
                 dbManager.getProduct("ruchi-chanachur"),
                 dbManager.getProduct("bashundhara-towel"),
@@ -150,9 +160,27 @@ public class HomeController {
         shadow.setColor(Color.rgb(0, 0, 0, 0.08));
         card.setEffect(shadow);
 
-        Region imagePlaceholder = new Region();
-        imagePlaceholder.setPrefSize(190, 140);
-        imagePlaceholder.setStyle("-fx-background-color: #F5F5F5; -fx-background-radius: 8;");
+        // Product image
+        ImageView imageView = new ImageView();
+        imageView.setFitWidth(190);
+        imageView.setFitHeight(140);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        
+        // Set image or placeholder
+        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
+            try {
+                // Load from resources (local files)
+                Image image = new Image(getClass().getResourceAsStream(product.getImageUrl()));
+                imageView.setImage(image);
+            } catch (Exception e) {
+                // If image fails to load, show placeholder
+                imageView.setStyle("-fx-background-color: #F5F5F5;");
+            }
+        } else {
+            // Placeholder style
+            imageView.setStyle("-fx-background-color: #F5F5F5;");
+        }
 
         Label nameLabel = new Label(product.getName());
         nameLabel.setFont(Font.font("System", javafx.scene.text.FontWeight.BOLD, 15));
@@ -224,7 +252,7 @@ public class HomeController {
         buttonBox.getChildren().addAll(favButton, rateButton);
 
 
-        card.getChildren().addAll(imagePlaceholder, nameLabel, descLabel, priceBox, spacer, buttonBox);
+        card.getChildren().addAll(imageView, nameLabel, descLabel, priceBox, spacer, buttonBox);
 
         return card;
     }

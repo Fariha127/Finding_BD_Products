@@ -42,6 +42,9 @@ public class NewProductsController {
     private Button favouritesBtn;
 
     @FXML
+    private Button favouriteCategoriesBtn;
+
+    @FXML
     private Button loginBtn;
 
     @FXML
@@ -88,6 +91,11 @@ public class NewProductsController {
     @FXML
     protected void showFavourites() {
         loadPage("MyFavouriteProducts.fxml");
+    }
+
+    @FXML
+    protected void showFavouriteCategories() {
+        loadPage("FavouriteCategories.fxml");
     }
 
     @FXML

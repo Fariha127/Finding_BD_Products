@@ -36,6 +36,7 @@ public class DatabaseManager {
                     price REAL NOT NULL,
                     unit TEXT,
                     category TEXT,
+                    image_url TEXT,
                     recommendation_count INTEGER DEFAULT 0
                 )
                 """;
@@ -61,6 +62,13 @@ public class DatabaseManager {
                 )
                 """;
             stmt.execute(createFavouritesTable);
+
+            String createFavouriteCategoriesTable = """
+                CREATE TABLE IF NOT EXISTS favourite_categories (
+                    category_name TEXT PRIMARY KEY
+                )
+                """;
+            stmt.execute(createFavouriteCategoriesTable);
 
             // Users table
             String createUsersTable = """
@@ -154,18 +162,18 @@ public class DatabaseManager {
 
     private void seedInitialData() {
         
-        insertProduct("mojo", "Mojo", "Soft Drink", 25, "250ml", "Beverages");
-        insertProduct("mediplus", "Mediplus DS", "Toothpaste", 85, "100g", "Oral Care");
-        insertProduct("spa-water", "Spa Drinking Water", "Water", 20, "500ml", "Beverages");
-        insertProduct("meril-soap", "Meril Milk Soap", "Moisturizing Soap", 35, "75g", "Personal Care");
-        insertProduct("shejan-juice", "Shejan Mango Juice", "Mango Juice", 35, "200ml", "Beverages");
-        insertProduct("pran-potata", "Pran Potata Spicy", "Biscuit", 40, "pack", "Snacks");
-        insertProduct("ruchi-chanachur", "Ruchi BBQ Chanachur", "Snack", 30, "150g", "Snacks");
-        insertProduct("bashundhara-towel", "Bashundhara Towel", "Hand Towel", 80, "pack", "Home Care");
-        insertProduct("revive-lotion", "Revive Perfect Skin", "Moisturizing Lotion", 150, "100ml", "Personal Care");
-        insertProduct("jui-oil", "Jui HairCare Oil", "Hair Oil", 95, "200ml", "Personal Care");
-        insertProduct("radhuni-tumeric", "Radhuni Tumeric", "Powder", 55, "100g", "Food & Grocery");
-        insertProduct("pran-ghee", "Pran Premium Ghee", "Cooking Ghee", 250, "500g", "Food & Grocery");
+        insertProduct("mojo", "Mojo", "Soft Drink", 25, "250ml", "Beverages", "/images/mojo.jpg");
+        insertProduct("mediplus", "Mediplus DS", "Toothpaste", 85, "100g", "Oral Care", "/images/mediplus.jpg");
+        insertProduct("spa-water", "Spa Drinking Water", "Water", 20, "500ml", "Beverages", "/images/spa-water.jpg");
+        insertProduct("meril-soap", "Meril Milk Soap", "Moisturizing Soap", 35, "75g", "Skin Care", "/images/meril-soap.jpg");
+        insertProduct("shezan-juice", "Shezan Mango Juice", "Mango Juice", 35, "200ml", "Beverages", "/images/shezan-juice.jpg");
+        insertProduct("pran-potata", "Pran Potata Spicy", "Biscuit", 40, "pack", "Snacks", "/images/pran-potata.jpg");
+        insertProduct("ruchi-chanachur", "Ruchi BBQ Chanachur", "Snack", 30, "150g", "Snacks", "/images/ruchi-chanachur.jpg");
+        insertProduct("bashundhara-towel", "Bashundhara Towel", "Hand Towel", 80, "pack", "Home Care", "/images/bashundhara-towel.jpg");
+        insertProduct("revive-lotion", "Revive Perfect Skin", "Moisturizing Lotion", 150, "100ml", "Skin Care", "/images/revive-lotion.jpg");
+        insertProduct("jui-oil", "Jui HairCare Oil", "Hair Oil", 95, "200ml", "Hair Care", "/images/jui-oil.jpg");
+        insertProduct("radhuni-tumeric", "Radhuni Tumeric", "Powder", 55, "100g", "Food & Grocery", "/images/radhuni-tumeric.jpg");
+        insertProduct("pran-ghee", "Pran Premium Ghee", "Cooking Ghee", 250, "500g", "Food & Grocery", "/images/pran-ghee.jpg");
 
 
         insertReview("r1", "mojo", "Ahmed Khan", "Great energy drink! Very refreshing.", 5);
@@ -175,13 +183,13 @@ public class DatabaseManager {
         insertReview("r3", "meril-soap", "Sadia Islam", "Makes my skin very soft!", 5);
         updateRecommendationCount("meril-soap", 23);
 
-        insertReview("r4", "shejan-juice", "Karim Hossain", "Love the mango flavor!", 5);
-        updateRecommendationCount("shejan-juice", 18);
+        insertReview("r4", "shezan-juice", "Karim Hossain", "Love the mango flavor!", 5);
+        updateRecommendationCount("shezan-juice", 18);
     }
 
 
-    public void insertProduct(String productId, String name, String description, double price, String unit, String category) {
-        String sql = "INSERT OR REPLACE INTO products (product_id, name, description, price, unit, category) VALUES (?, ?, ?, ?, ?, ?)";
+    public void insertProduct(String productId, String name, String description, double price, String unit, String category, String imageUrl) {
+        String sql = "INSERT OR REPLACE INTO products (product_id, name, description, price, unit, category, image_url) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, productId);
@@ -190,10 +198,16 @@ public class DatabaseManager {
             pstmt.setDouble(4, price);
             pstmt.setString(5, unit);
             pstmt.setString(6, category);
+            pstmt.setString(7, imageUrl);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    // Backward compatibility method without imageUrl
+    public void insertProduct(String productId, String name, String description, double price, String unit, String category) {
+        insertProduct(productId, name, description, price, unit, category, null);
     }
 
     public Product getProduct(String productId) {
@@ -209,7 +223,8 @@ public class DatabaseManager {
                         rs.getString("description"),
                         rs.getDouble("price"),
                         rs.getString("unit"),
-                        rs.getString("category")
+                        rs.getString("category"),
+                        rs.getString("image_url")
                 );
                 product.setRecommendationCount(rs.getInt("recommendation_count"));
 
@@ -240,7 +255,8 @@ public class DatabaseManager {
                         rs.getString("description"),
                         rs.getDouble("price"),
                         rs.getString("unit"),
-                        rs.getString("category")
+                        rs.getString("category"),
+                        rs.getString("image_url")
                 );
                 product.setRecommendationCount(rs.getInt("recommendation_count"));
                 products.add(product);
@@ -265,7 +281,8 @@ public class DatabaseManager {
                         rs.getString("description"),
                         rs.getDouble("price"),
                         rs.getString("unit"),
-                        rs.getString("category")
+                        rs.getString("category"),
+                        rs.getString("image_url")
                 );
                 product.setRecommendationCount(rs.getInt("recommendation_count"));
                 products.add(product);
@@ -400,7 +417,8 @@ public class DatabaseManager {
                         rs.getString("description"),
                         rs.getDouble("price"),
                         rs.getString("unit"),
-                        rs.getString("category")
+                        rs.getString("category"),
+                        rs.getString("image_url")
                 );
                 product.setRecommendationCount(rs.getInt("recommendation_count"));
                 favourites.add(product);
@@ -409,6 +427,61 @@ public class DatabaseManager {
             e.printStackTrace();
         }
         return favourites;
+    }
+
+    // ============ Favourite Categories Methods ============
+
+    public void addToFavouriteCategories(String categoryName) {
+        String sql = "INSERT OR IGNORE INTO favourite_categories (category_name) VALUES (?)";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, categoryName);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeFromFavouriteCategories(String categoryName) {
+        String sql = "DELETE FROM favourite_categories WHERE category_name = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, categoryName);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isFavouriteCategory(String categoryName) {
+        String sql = "SELECT COUNT(*) FROM favourite_categories WHERE category_name = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, categoryName);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public List<String> getFavouriteCategories() {
+        List<String> categories = new ArrayList<>();
+        String sql = "SELECT category_name FROM favourite_categories ORDER BY category_name";
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                categories.add(rs.getString("category_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categories;
     }
 
     // ============ Authentication Methods ============

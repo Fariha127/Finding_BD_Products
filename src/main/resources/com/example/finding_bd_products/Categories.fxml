@@ -88,6 +88,10 @@
                         <Button fx:id="categoriesBtn" mnemonicParsing="false" onAction="#showCategories" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: linear-gradient(to bottom, #2E7D32, #4CAF50); -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-font-weight: bold;" text="Product Categories" />
                         <Button fx:id="newlyAddedBtn" mnemonicParsing="false" onAction="#showNewlyAdded" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-text-fill: #708090; -fx-font-size: 14px; -fx-cursor: hand; -fx-border-radius: 5; -fx-border-color: #E0E0E0; -fx-font-weight: bold;" text="Newly Added" />
                         <Button fx:id="favouritesBtn" mnemonicParsing="false" onAction="#showFavourites" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-background-radius: 5; -fx-border-radius: 5; -fx-text-fill: #708090; -fx-font-size: 14px; -fx-font-weight: bold;" text="My Favourites" />
+                        <Button fx:id="favouriteCategoriesBtn" mnemonicParsing="false" onAction="#showFavouriteCategories" prefHeight="40.0" prefWidth="190.0" style="-fx-background-color: white; -fx-cursor: hand; -fx-background-radius: 5; -fx-text-fill: #708090; -fx-font-size: 14px; -fx-font-weight: bold; -fx-border-color: #E0E0E0; -fx-border-radius: 5;" text="Favourite Categories">
+                            <font>
+                                <Font size="14.0" />
+                            </font></Button>
                     </children>
                 </HBox>
             </children>
@@ -121,7 +125,7 @@
                         </VBox>
                         <GridPane fx:id="categoriesGrid" hgap="20.0" vgap="20.0">
 
-                            <VBox onMouseClicked="#onCategoryClick" prefHeight="180.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <VBox onMouseClicked="#onCategoryClick" prefHeight="240.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="0" GridPane.rowIndex="0">
                                 <effect>
                                     <DropShadow offsetY="3.0">
                                         <color>
@@ -130,7 +134,11 @@
                                     </DropShadow>
                                 </effect>
                                 <children>
-                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fitHeight="120.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <javafx.scene.image.Image url="@../../../images/beverages-category.jpg" />
+                              </image>
+                           </ImageView>
                                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Beverages">
                                         <font>
                                             <Font name="System Bold" size="18.0" />
@@ -147,7 +155,7 @@
                             </VBox>
 
 
-                            <VBox onMouseClicked="#onCategoryClick" prefHeight="180.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <VBox onMouseClicked="#onCategoryClick" prefHeight="240.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="1" GridPane.rowIndex="0">
                                 <effect>
                                     <DropShadow offsetY="3.0">
                                         <color>
@@ -156,7 +164,11 @@
                                     </DropShadow>
                                 </effect>
                                 <children>
-                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fitHeight="120.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <javafx.scene.image.Image url="@../../../images/haircare-category.jpg" />
+                              </image>
+                           </ImageView>
                                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Hair Care">
                                         <font>
                                             <Font name="System Bold" size="18.0" />
@@ -173,7 +185,7 @@
                             </VBox>
 
 
-                            <VBox onMouseClicked="#onCategoryClick" prefHeight="180.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                            <VBox onMouseClicked="#onCategoryClick" prefHeight="240.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="2" GridPane.rowIndex="0">
                                 <effect>
                                     <DropShadow offsetY="3.0">
                                         <color>
@@ -182,7 +194,11 @@
                                     </DropShadow>
                                 </effect>
                                 <children>
-                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fitHeight="120.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <javafx.scene.image.Image url="@../../../images/oralcare-category.jpg" />
+                              </image>
+                           </ImageView>
                                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Oral Care">
                                         <font>
                                             <Font name="System Bold" size="18.0" />
@@ -199,7 +215,7 @@
                             </VBox>
 
 
-                            <VBox onMouseClicked="#onCategoryClick" prefHeight="180.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <VBox onMouseClicked="#onCategoryClick" prefHeight="240.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="0" GridPane.rowIndex="1">
                                 <effect>
                                     <DropShadow offsetY="3.0">
                                         <color>
@@ -208,7 +224,11 @@
                                     </DropShadow>
                                 </effect>
                                 <children>
-                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fitHeight="120.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <javafx.scene.image.Image url="@../../../images/snacks-category.jpg" />
+                              </image>
+                           </ImageView>
                                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Snacks">
                                         <font>
                                             <Font name="System Bold" size="18.0" />
@@ -224,7 +244,7 @@
                                 </children>
                             </VBox>
 
-                            <VBox onMouseClicked="#onCategoryClick" prefHeight="180.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <VBox onMouseClicked="#onCategoryClick" prefHeight="240.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                 <effect>
                                     <DropShadow offsetY="3.0">
                                         <color>
@@ -233,7 +253,11 @@
                                     </DropShadow>
                                 </effect>
                                 <children>
-                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fitHeight="120.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <javafx.scene.image.Image url="@../../../images/foodgrocery-category.jpg" />
+                              </image>
+                           </ImageView>
                                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Food &amp; Grocery">
                                         <font>
                                             <Font name="System Bold" size="18.0" />
@@ -249,7 +273,7 @@
                                 </children>
                             </VBox>
 
-                            <VBox onMouseClicked="#onCategoryClick" prefHeight="180.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                            <VBox onMouseClicked="#onCategoryClick" prefHeight="240.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                 <effect>
                                     <DropShadow offsetY="3.0">
                                         <color>
@@ -258,7 +282,11 @@
                                     </DropShadow>
                                 </effect>
                                 <children>
-                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fitHeight="120.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <javafx.scene.image.Image url="@../../../images/homecare-category.jpg" />
+                              </image>
+                           </ImageView>
                                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Home Care">
                                         <font>
                                             <Font name="System Bold" size="18.0" />
@@ -274,7 +302,7 @@
                                 </children>
                             </VBox>
 
-                            <VBox onMouseClicked="#onCategoryClick" prefHeight="180.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                            <VBox onMouseClicked="#onCategoryClick" prefHeight="240.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="0" GridPane.rowIndex="2">
                                 <effect>
                                     <DropShadow offsetY="3.0">
                                         <color>
@@ -283,7 +311,11 @@
                                     </DropShadow>
                                 </effect>
                                 <children>
-                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fitHeight="120.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <javafx.scene.image.Image url="@../../../images/skincare-category.jpg" />
+                              </image>
+                           </ImageView>
                                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Skin Care">
                                         <font>
                                             <Font name="System Bold" size="18.0" />
@@ -298,7 +330,7 @@
                                     </Label>
                                 </children>
                             </VBox>
-                            <VBox onMouseClicked="#onCategoryClick" prefHeight="180.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <VBox onMouseClicked="#onCategoryClick" prefHeight="240.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                 <effect>
                                     <DropShadow offsetY="3.0">
                                         <color>
@@ -307,7 +339,11 @@
                                     </DropShadow>
                                 </effect>
                                 <children>
-                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fitHeight="120.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <javafx.scene.image.Image url="@../../../images/babycare-category.jpg" />
+                              </image>
+                           </ImageView>
                                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Baby Care">
                                         <font>
                                             <Font name="System Bold" size="18.0" />
@@ -322,7 +358,7 @@
                                     </Label>
                                 </children>
                             </VBox>
-                            <VBox onMouseClicked="#onCategoryClick" prefHeight="180.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                            <VBox onMouseClicked="#onCategoryClick" prefHeight="240.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 20; -fx-cursor: hand;" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                 <effect>
                                     <DropShadow offsetY="3.0">
                                         <color>
@@ -331,7 +367,11 @@
                                     </DropShadow>
                                 </effect>
                                 <children>
-                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fitHeight="120.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <javafx.scene.image.Image url="@../../../images/dairy-category.jpg" />
+                              </image>
+                           </ImageView>
                                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Dairy Products">
                                         <font>
                                             <Font name="System Bold" size="18.0" />

@@ -10,20 +10,26 @@ public class Product {
     private double price;
     private String unit;
     private String category;
+    private String imageUrl;
     private int recommendationCount;
     private List<Review> reviews;
     private double averageRating;
 
-    public Product(String productId, String name, String description, double price, String unit, String category) {
+    public Product(String productId, String name, String description, double price, String unit, String category, String imageUrl) {
         this.productId = productId;
         this.name = name;
         this.description = description;
         this.price = price;
         this.unit = unit;
         this.category = category;
+        this.imageUrl = imageUrl;
         this.recommendationCount = 0;
         this.reviews = new ArrayList<>();
         this.averageRating = 0.0;
+    }
+
+    public Product(String productId, String name, String description, double price, String unit, String category) {
+        this(productId, name, description, price, unit, category, null);
     }
 
     public void addRecommendation() {
@@ -71,6 +77,9 @@ public class Product {
 
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
     public int getRecommendationCount() { return recommendationCount; }
     public void setRecommendationCount(int recommendationCount) { this.recommendationCount = recommendationCount; }
