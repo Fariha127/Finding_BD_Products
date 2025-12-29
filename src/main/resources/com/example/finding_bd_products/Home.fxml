@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
@@ -46,9 +45,6 @@
                                     </font>
                                 </Button>
                             </children>
-                            <padding>
-                                <Insets right="25.0" />
-                            </padding>
                         </HBox>
                         <Label text="  Deshi Store" textFill="WHITE">
                             <font>
@@ -145,7 +141,6 @@
                                         <Region prefHeight="200.0" prefWidth="200.0" />
                                     </children>
                                 </HBox>
-                                <Separator prefWidth="200.0" />
                                 <GridPane fx:id="recommendedGrid" hgap="20.0" vgap="20.0">
                                     <columnConstraints>
                                         <ColumnConstraints hgrow="ALWAYS" minWidth="250.0" percentWidth="33.33" />

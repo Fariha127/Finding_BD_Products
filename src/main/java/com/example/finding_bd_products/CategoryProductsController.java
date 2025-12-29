@@ -94,12 +94,11 @@ public class CategoryProductsController {
 
     private VBox createProductCard(Product product) {
         VBox card = new VBox(10);
-        card.setPrefSize(220, 280);
-        card.setStyle("-fx-background-color: white; -fx-border-color: #E0E0E0; " +
-                "-fx-border-width: 1; -fx-border-radius: 10; -fx-background-radius: 10; " +
+        card.setMaxWidth(Double.MAX_VALUE);
+        card.setStyle("-fx-background-color: white; " +
+                "-fx-border-radius: 10; -fx-background-radius: 10; " +
                 "-fx-padding: 15; -fx-cursor: hand;");
 
-        // Make card clickable
         card.setOnMouseClicked(event -> navigateToProductDetails(product.getProductId()));
 
         DropShadow shadow = new DropShadow();
@@ -107,22 +106,19 @@ public class CategoryProductsController {
         shadow.setColor(Color.rgb(0, 0, 0, 0.08));
         card.setEffect(shadow);
 
-        // Product image placeholder
         Region imagePlaceholder = new Region();
         imagePlaceholder.setPrefSize(190, 140);
         imagePlaceholder.setStyle("-fx-background-color: #F5F5F5; -fx-background-radius: 8;");
 
-        // Product name
         Label nameLabel = new Label(product.getName());
         nameLabel.setFont(Font.font("System", javafx.scene.text.FontWeight.BOLD, 15));
         nameLabel.setStyle("-fx-text-fill: #333333;");
 
-        // Product description
         Label descLabel = new Label(product.getDescription());
         descLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #888888;");
 
-        // Price
         HBox priceBox = new HBox(5);
+        priceBox.setStyle("-fx-border-width: 0;");
         Label priceLabel = new Label("৳ " + (int)product.getPrice());
         priceLabel.setFont(Font.font("System", javafx.scene.text.FontWeight.BOLD, 16));
         priceLabel.setStyle("-fx-text-fill: #D32F2F;");
@@ -130,19 +126,44 @@ public class CategoryProductsController {
         unitLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #888888;");
         priceBox.getChildren().addAll(priceLabel, unitLabel);
 
-        // Spacer
         Region spacer = new Region();
+        spacer.setStyle("-fx-border-width: 0; -fx-background-color: transparent;");
         VBox.setVgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
 
-        // Buttons
         HBox buttonBox = new HBox(8);
+        buttonBox.setStyle("-fx-border-width: 0; -fx-border-color: transparent;");
         Button favButton = new Button("♡");
         favButton.setPrefSize(45, 32);
-        favButton.setStyle("-fx-background-color: #FFEBEE; -fx-text-fill: #D32F2F; " +
-                "-fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px;");
+        
+        // Check if product is favourite and set initial style
+        boolean isFav = dbManager.isFavourite(product.getProductId());
+        if (isFav) {
+            favButton.setText("♥");
+            favButton.setStyle("-fx-background-color: #D32F2F; -fx-text-fill: white; " +
+                    "-fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px; -fx-border-width: 0;");
+        } else {
+            favButton.setStyle("-fx-background-color: #FFE5E5; -fx-text-fill: #D32F2F; " +
+                    "-fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px; -fx-border-width: 0;");
+        }
+        
         favButton.setOnAction(e -> {
             e.consume();
-            System.out.println("Added to favourites: " + product.getName());
+            boolean currentlyFav = dbManager.isFavourite(product.getProductId());
+            if (currentlyFav) {
+                // Remove from favourites
+                dbManager.removeFromFavourites(product.getProductId());
+                favButton.setText("♡");
+                favButton.setStyle("-fx-background-color: #FFE5E5; -fx-text-fill: #D32F2F; " +
+                        "-fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px; -fx-border-width: 0;");
+                System.out.println("Removed from favourites: " + product.getName());
+            } else {
+                // Add to favourites
+                dbManager.addToFavourites(product.getProductId());
+                favButton.setText("♥");
+                favButton.setStyle("-fx-background-color: #D32F2F; -fx-text-fill: white; " +
+                        "-fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px; -fx-border-width: 0;");
+                System.out.println("Added to favourites: " + product.getName());
+            }
         });
 
         Button rateButton = new Button("⭐ Rate");
@@ -172,8 +193,7 @@ public class CategoryProductsController {
             controller.setProduct(productId);
 
             Stage stage = (Stage) homeBtn.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            stage.getScene().setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -191,12 +211,12 @@ public class CategoryProductsController {
 
     @FXML
     protected void showNewlyAdded() {
-        loadPage("NewlyAdded.fxml");
+        loadPage("NewProducts.fxml");
     }
 
     @FXML
     protected void showFavourites() {
-        loadPage("Favourites.fxml");
+        loadPage("MyFavouriteProducts.fxml");
     }
 
     @FXML    protected void goToLogin() {

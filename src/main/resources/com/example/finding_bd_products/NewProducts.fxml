@@ -31,11 +31,7 @@
                     <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
                             <children>
-                                <Button fx:id="backButton" mnemonicParsing="false" onAction="#goBack" prefHeight="35.0" prefWidth="80.0" style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-text-fill: #2E7D32; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand; -fx-border-color: rgba(46, 125, 50, 0.3); -fx-border-width: 1.5; -fx-border-radius: 5;" text="← Back">
-                                    <HBox.margin>
-                                        <Insets left="25.0" />
-                                    </HBox.margin>
-                                </Button>
+                                <Button fx:id="backButton" mnemonicParsing="false" onAction="#goBack" prefHeight="35.0" prefWidth="80.0" style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-text-fill: #2E7D32; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand; -fx-border-color: rgba(46, 125, 50, 0.3); -fx-border-width: 1.5; -fx-border-radius: 5;" text="← Back" />
                                 <Region HBox.hgrow="ALWAYS" />
                                 <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#goToLogin" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-text-fill: #2E7D32; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0, 0, 2); -fx-border-color: rgba(46, 125, 50, 0.3); -fx-border-width: 1.5; -fx-border-radius: 5;" text="Login">
                                     <font>
@@ -48,9 +44,6 @@
                                     </font>
                                 </Button>
                             </children>
-                            <padding>
-                                <Insets right="25.0" />
-                            </padding>
                         </HBox>
                         <Label text="  Deshi Store" textFill="WHITE">
                             <font>
@@ -113,11 +106,6 @@
                             <children>
                                 <HBox alignment="CENTER_LEFT" spacing="10.0">
                                     <children>
-                                        <Label text="✨" textFill="#f0d000">
-                                            <font>
-                                                <Font size="32.0" />
-                                            </font>
-                                        </Label>
                                         <Label text="Newly Added Products" textFill="#2E7D32">
                                             <font>
                                                 <Font name="System Bold" size="28.0" />

@@ -139,8 +139,8 @@ public class HomeController {
     private VBox createProductCard(Product product) {
         VBox card = new VBox(10);
         card.setPrefSize(220, 280);
-        card.setStyle("-fx-background-color: white; -fx-border-color: #E0E0E0; " +
-                "-fx-border-width: 1; -fx-border-radius: 10; -fx-background-radius: 10; " +
+        card.setStyle("-fx-background-color: white; " +
+                "-fx-border-radius: 10; -fx-background-radius: 10; " +
                 "-fx-padding: 15; -fx-cursor: hand;");
 
         card.setOnMouseClicked(event -> navigateToProductDetails(product.getProductId()));
@@ -162,6 +162,7 @@ public class HomeController {
         descLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #888888;");
 
         HBox priceBox = new HBox(5);
+        priceBox.setStyle("-fx-border-width: 0;");
         Label priceLabel = new Label("৳ " + (int)product.getPrice());
         priceLabel.setFont(Font.font("System", javafx.scene.text.FontWeight.BOLD, 16));
         priceLabel.setStyle("-fx-text-fill: #D32F2F;");
@@ -170,9 +171,11 @@ public class HomeController {
         priceBox.getChildren().addAll(priceLabel, unitLabel);
 
         Region spacer = new Region();
+        spacer.setStyle("-fx-border-width: 0; -fx-background-color: transparent;");
         VBox.setVgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
 
         HBox buttonBox = new HBox(8);
+        buttonBox.setStyle("-fx-border-width: 0; -fx-border-color: transparent;");
         Button favButton = new Button("♡");
         favButton.setPrefSize(45, 32);
         
@@ -181,10 +184,10 @@ public class HomeController {
         if (isFav) {
             favButton.setText("♥");
             favButton.setStyle("-fx-background-color: #D32F2F; -fx-text-fill: white; " +
-                    "-fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px;");
+                    "-fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px; -fx-border-width: 0;");
         } else {
-            favButton.setStyle("-fx-background-color: white; -fx-text-fill: #D32F2F; " +
-                    "-fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px; -fx-border-color: #D32F2F; -fx-border-width: 1.5; -fx-border-radius: 6;");
+            favButton.setStyle("-fx-background-color: #FFE5E5; -fx-text-fill: #D32F2F; " +
+                    "-fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px; -fx-border-width: 0;");
         }
         
         favButton.setOnAction(e -> {
@@ -194,15 +197,15 @@ public class HomeController {
                 // Remove from favourites
                 dbManager.removeFromFavourites(product.getProductId());
                 favButton.setText("♡");
-                favButton.setStyle("-fx-background-color: white; -fx-text-fill: #D32F2F; " +
-                        "-fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px; -fx-border-color: #D32F2F; -fx-border-width: 1.5; -fx-border-radius: 6;");
+                favButton.setStyle("-fx-background-color: #FFE5E5; -fx-text-fill: #D32F2F; " +
+                        "-fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px; -fx-border-width: 0;");
                 System.out.println("Removed from favourites: " + product.getName());
             } else {
                 // Add to favourites
                 dbManager.addToFavourites(product.getProductId());
                 favButton.setText("♥");
                 favButton.setStyle("-fx-background-color: #D32F2F; -fx-text-fill: white; " +
-                        "-fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px;");
+                        "-fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px; -fx-border-width: 0;");
                 System.out.println("Added to favourites: " + product.getName());
             }
         });
