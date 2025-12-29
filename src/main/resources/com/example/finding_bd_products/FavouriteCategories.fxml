@@ -124,9 +124,6 @@
                             <font>
                                 <Font size="16.0" />
                             </font>
-                            <padding>
-                                <Insets top="20.0" />
-                            </padding>
                         </Label>
                         <GridPane fx:id="categoriesGrid" hgap="20.0" vgap="20.0">
                             <columnConstraints>
