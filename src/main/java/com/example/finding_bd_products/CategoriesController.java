@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -50,6 +51,18 @@ public class CategoriesController {
     public void initialize() {
         dbManager = DatabaseManager.getInstance();
         addFavoriteButtons();
+        
+        // Hide login/signup buttons if user or vendor is logged in
+        if (UserSession.getInstance().isLoggedIn() || VendorSession.getInstance().isLoggedIn()) {
+            if (loginBtn != null) {
+                loginBtn.setVisible(false);
+                loginBtn.setManaged(false);
+            }
+            if (signupBtn != null) {
+                signupBtn.setVisible(false);
+                signupBtn.setManaged(false);
+            }
+        }
     }
 
     private void addFavoriteButtons() {
@@ -88,8 +101,8 @@ public class CategoriesController {
             Button favButton = new Button("♡");
             favButton.setPrefSize(35, 32);
             
-            // Check if category is favourite and set initial style
-            boolean isFav = dbManager.isFavouriteCategory(categoryName);
+            // Check if category is favourite and set initial style (only if logged in)
+            boolean isFav = UserSession.getInstance().isLoggedIn() && dbManager.isFavouriteCategory(categoryName);
             if (isFav) {
                 favButton.setText("♥");
                 favButton.setStyle("-fx-background-color: #D32F2F; -fx-text-fill: white; " +
@@ -101,6 +114,10 @@ public class CategoriesController {
             
             favButton.setOnAction(e -> {
                 e.consume();
+                if (!UserSession.getInstance().isLoggedIn()) {
+                    showLoginAlert();
+                    return;
+                }
                 boolean currentlyFav = dbManager.isFavouriteCategory(categoryName);
                 if (currentlyFav) {
                     dbManager.removeFromFavouriteCategories(categoryName);
@@ -229,5 +246,13 @@ public class CategoriesController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void showLoginAlert() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Login Required");
+        alert.setHeaderText("You need to log in");
+        alert.setContentText("Please log in to add categories to favorites.");
+        alert.showAndWait();
     }
 }

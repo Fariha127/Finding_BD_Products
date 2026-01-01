@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -48,6 +49,9 @@ public class CategoryProductsController {
     private Button favouritesBtn;
 
     @FXML
+    private Button favouriteCategoriesBtn;
+
+    @FXML
     private Button loginBtn;
 
     @FXML
@@ -58,6 +62,18 @@ public class CategoryProductsController {
 
     public void initialize() {
         dbManager = DatabaseManager.getInstance();
+        
+        // Hide login/signup buttons if user or vendor is logged in
+        if (UserSession.getInstance().isLoggedIn() || VendorSession.getInstance().isLoggedIn()) {
+            if (loginBtn != null) {
+                loginBtn.setVisible(false);
+                loginBtn.setManaged(false);
+            }
+            if (signupBtn != null) {
+                signupBtn.setVisible(false);
+                signupBtn.setManaged(false);
+            }
+        }
     }
 
     public void setCategory(String categoryName) {
@@ -155,8 +171,8 @@ public class CategoryProductsController {
         Button favButton = new Button("♡");
         favButton.setPrefSize(45, 32);
         
-        // Check if product is favourite and set initial style
-        boolean isFav = dbManager.isFavourite(product.getProductId());
+        // Check if product is favourite and set initial style (only if logged in)
+        boolean isFav = UserSession.getInstance().isLoggedIn() && dbManager.isFavourite(product.getProductId());
         if (isFav) {
             favButton.setText("♥");
             favButton.setStyle("-fx-background-color: #D32F2F; -fx-text-fill: white; " +
@@ -168,6 +184,10 @@ public class CategoryProductsController {
         
         favButton.setOnAction(e -> {
             e.consume();
+            if (!UserSession.getInstance().isLoggedIn()) {
+                showLoginAlert();
+                return;
+            }
             boolean currentlyFav = dbManager.isFavourite(product.getProductId());
             if (currentlyFav) {
                 // Remove from favourites
@@ -193,7 +213,11 @@ public class CategoryProductsController {
                 "-fx-font-weight: bold;");
         rateButton.setOnAction(e -> {
             e.consume();
-            System.out.println("Rate product: " + product.getName());
+            if (!UserSession.getInstance().isLoggedIn()) {
+                showLoginAlert();
+                return;
+            }
+            navigateToProductDetails(product.getProductId());
         });
         HBox.setHgrow(rateButton, javafx.scene.layout.Priority.ALWAYS);
 
@@ -239,6 +263,11 @@ public class CategoryProductsController {
         loadPage("MyFavouriteProducts.fxml");
     }
 
+    @FXML
+    protected void showFavouriteCategories() {
+        loadPage("FavouriteCategories.fxml");
+    }
+
     @FXML    protected void goToLogin() {
         loadPage("Login.fxml");
     }
@@ -268,5 +297,13 @@ public class CategoryProductsController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void showLoginAlert() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Login Required");
+        alert.setHeaderText("You need to log in");
+        alert.setContentText("Please log in to perform this action.");
+        alert.showAndWait();
     }
 }

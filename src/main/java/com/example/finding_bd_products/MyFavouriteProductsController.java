@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -59,7 +60,32 @@ public class MyFavouriteProductsController {
     @FXML
     public void initialize() {
         dbManager = DatabaseManager.getInstance();
-        loadFavouriteProducts();
+        if (UserSession.getInstance().isLoggedIn()) {
+            loadFavouriteProducts();
+        } else {
+            showEmptyState();
+        }
+        
+        // Hide login/signup buttons if user or vendor is logged in
+        if (UserSession.getInstance().isLoggedIn() || VendorSession.getInstance().isLoggedIn()) {
+            if (loginBtn != null) {
+                loginBtn.setVisible(false);
+                loginBtn.setManaged(false);
+            }
+            if (signupBtn != null) {
+                signupBtn.setVisible(false);
+                signupBtn.setManaged(false);
+            }
+        }
+    }
+
+    private void showEmptyState() {
+        productsGrid.getChildren().clear();
+        Label emptyLabel = new Label("Please log in to view your favourite products.");
+        emptyLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: #888888; -fx-padding: 50;");
+        VBox emptyBox = new VBox(emptyLabel);
+        emptyBox.setStyle("-fx-alignment: center;");
+        productsGrid.add(emptyBox, 0, 0, 3, 1);
     }
 
     private void loadFavouriteProducts() {
@@ -149,6 +175,10 @@ public class MyFavouriteProductsController {
                 "-fx-background-radius: 6; -fx-cursor: hand; -fx-font-size: 14px;");
         favButton.setOnAction(e -> {
             e.consume();
+            if (!UserSession.getInstance().isLoggedIn()) {
+                showLoginAlert();
+                return;
+            }
             // Remove from favourites
             dbManager.removeFromFavourites(product.getProductId());
             loadFavouriteProducts(); // Refresh the grid
@@ -162,7 +192,11 @@ public class MyFavouriteProductsController {
                 "-fx-font-weight: bold;");
         rateButton.setOnAction(e -> {
             e.consume();
-            System.out.println("Rate product: " + product.getName());
+            if (!UserSession.getInstance().isLoggedIn()) {
+                showLoginAlert();
+                return;
+            }
+            navigateToProductDetails(product.getProductId());
         });
         HBox.setHgrow(rateButton, javafx.scene.layout.Priority.ALWAYS);
 
@@ -250,6 +284,14 @@ public class MyFavouriteProductsController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void showLoginAlert() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Login Required");
+        alert.setHeaderText("You need to log in");
+        alert.setContentText("Please log in to perform this action.");
+        alert.showAndWait();
     }
 }
 

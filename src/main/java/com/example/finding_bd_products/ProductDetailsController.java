@@ -26,13 +26,13 @@ public class ProductDetailsController {
     @FXML private Button recommendButton;
     @FXML private TextArea reviewTextArea;
     @FXML private ComboBox<Integer> ratingComboBox;
-    @FXML private TextField userNameField;
     @FXML private Button submitReviewButton;
     @FXML private VBox reviewsContainer;
     @FXML private Button homeBtn;
     @FXML private Button categoriesBtn;
     @FXML private Button newlyAddedBtn;
     @FXML private Button favouritesBtn;
+    @FXML private Button favouriteCategoriesBtn;
     @FXML private Button backButton;
 
     @FXML private Button loginBtn;
@@ -48,6 +48,18 @@ public class ProductDetailsController {
         dbManager = DatabaseManager.getInstance();
         ratingComboBox.getItems().addAll(5, 4, 3, 2, 1);
         ratingComboBox.setValue(5);
+        
+        // Hide login/signup buttons if user or vendor is logged in
+        if (UserSession.getInstance().isLoggedIn() || VendorSession.getInstance().isLoggedIn()) {
+            if (loginBtn != null) {
+                loginBtn.setVisible(false);
+                loginBtn.setManaged(false);
+            }
+            if (signupBtn != null) {
+                signupBtn.setVisible(false);
+                signupBtn.setManaged(false);
+            }
+        }
     }
 
     public void setProduct(String productId) {
@@ -89,6 +101,15 @@ public class ProductDetailsController {
 
     @FXML
     protected void onRecommendClick() {
+        if (!UserSession.getInstance().isLoggedIn()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Login Required");
+            alert.setHeaderText("You need to log in");
+            alert.setContentText("Please log in to recommend products.");
+            alert.showAndWait();
+            return;
+        }
+
         if (!hasRecommended) {
             // Add recommendation
             currentProduct.addRecommendation();
@@ -126,15 +147,24 @@ public class ProductDetailsController {
 
     @FXML
     protected void onSubmitReview() {
-        String userName = userNameField.getText().trim();
+        if (!UserSession.getInstance().isLoggedIn()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Login Required");
+            alert.setHeaderText("You need to log in");
+            alert.setContentText("Please log in to submit a review.");
+            alert.showAndWait();
+            return;
+        }
+
+        String userName = UserSession.getInstance().getCurrentUser().getFullName();
         String comment = reviewTextArea.getText().trim();
         Integer rating = ratingComboBox.getValue();
 
-        if (userName.isEmpty() || comment.isEmpty()) {
+        if (comment.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Incomplete Review");
             alert.setHeaderText(null);
-            alert.setContentText("Please enter your name and review comment.");
+            alert.setContentText("Please enter a review comment.");
             alert.showAndWait();
             return;
         }
@@ -149,7 +179,6 @@ public class ProductDetailsController {
         displayProductDetails();
         addReviewToUI(review);
 
-        userNameField.clear();
         reviewTextArea.clear();
         ratingComboBox.setValue(5);
 
@@ -225,6 +254,16 @@ public class ProductDetailsController {
 
     @FXML
     protected void onAddToFavourites() {
+        // Check if user is logged in
+        if (!UserSession.getInstance().isLoggedIn()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Login Required");
+            alert.setHeaderText("You need to log in");
+            alert.setContentText("Please log in to add products to your favourites.");
+            alert.showAndWait();
+            return;
+        }
+        
         if (isFavourite) {
             // Remove from favourites
             dbManager.removeFromFavourites(currentProduct.getProductId());
@@ -251,7 +290,13 @@ public class ProductDetailsController {
     }
 
     private void updateFavouriteButton() {
-        isFavourite = dbManager.isFavourite(currentProduct.getProductId());
+        // Check if user is logged in before checking favourite status
+        if (UserSession.getInstance().isLoggedIn()) {
+            isFavourite = dbManager.isFavourite(currentProduct.getProductId());
+        } else {
+            isFavourite = false; // Not logged in, so no favourites
+        }
+        
         if (isFavourite) {
             favouriteButton.setText("♥ Favourite");
             favouriteButton.setStyle("-fx-background-color: #D32F2F; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold; -fx-cursor: hand;");
@@ -294,6 +339,11 @@ public class ProductDetailsController {
     @FXML
     protected void showFavourites() {
         loadPage("MyFavouriteProducts.fxml");
+    }
+
+    @FXML
+    protected void showFavouriteCategories() {
+        loadPage("FavouriteCategories.fxml");
     }
 
     private void loadPage(String fxmlFile) {

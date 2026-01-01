@@ -563,6 +563,7 @@ public class DatabaseManager {
                     rs.getString("phone_number"),
                     rs.getString("date_of_birth"),
                     rs.getString("gender"),
+                    rs.getString("city"),
                     rs.getString("user_type"),
                     rs.getString("account_status")
                 );
@@ -679,6 +680,225 @@ public class DatabaseManager {
             e.printStackTrace();
         }
         return null;
+    }
+
+    // Get all users
+    public List<User> getAllUsers() {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT * FROM users ORDER BY account_status, full_name";
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                users.add(new User(
+                    rs.getString("user_id"),
+                    rs.getString("full_name"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    rs.getString("phone_number"),
+                    rs.getString("date_of_birth"),
+                    rs.getString("gender"),
+                    rs.getString("city"),
+                    rs.getString("user_type"),
+                    rs.getString("account_status")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    // Get all company vendors
+    public List<CompanyVendor> getAllCompanyVendors() {
+        List<CompanyVendor> vendors = new ArrayList<>();
+        String sql = "SELECT * FROM company_vendors ORDER BY account_status, company_name";
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                vendors.add(new CompanyVendor(
+                    rs.getString("vendor_id"),
+                    rs.getString("full_name"),
+                    rs.getString("designation"),
+                    rs.getString("company_name"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    rs.getString("phone_number"),
+                    rs.getString("company_registration_number"),
+                    rs.getString("bsti_certificate_number"),
+                    rs.getString("company_address"),
+                    rs.getString("tin_number"),
+                    rs.getString("account_status")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return vendors;
+    }
+
+    // Get all retail vendors
+    public List<RetailVendor> getAllRetailVendors() {
+        List<RetailVendor> vendors = new ArrayList<>();
+        String sql = "SELECT * FROM retail_vendors ORDER BY account_status, shop_name";
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                vendors.add(new RetailVendor(
+                    rs.getString("vendor_id"),
+                    rs.getString("owner_name"),
+                    rs.getString("shop_name"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    rs.getString("phone_number"),
+                    rs.getString("business_registration_number"),
+                    rs.getString("trade_license_number"),
+                    rs.getString("shop_address"),
+                    rs.getString("tin_number"),
+                    rs.getString("account_status")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return vendors;
+    }
+
+    // Approve user
+    public boolean approveUser(String userId) {
+        String sql = "UPDATE users SET account_status = 'approved' WHERE user_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, userId);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Reject user
+    public boolean rejectUser(String userId) {
+        String sql = "UPDATE users SET account_status = 'rejected' WHERE user_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, userId);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    // Update user profile
+    public boolean updateUserProfile(User user) {
+        String sql = "UPDATE users SET full_name = ?, password = ?, phone_number = ?, date_of_birth = ?, gender = ?, city = ? WHERE user_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, user.getFullName());
+            pstmt.setString(2, user.getPassword());
+            pstmt.setString(3, user.getPhoneNumber());
+            pstmt.setString(4, user.getDateOfBirth());
+            pstmt.setString(5, user.getGender());
+            pstmt.setString(6, user.getCity());
+            pstmt.setString(7, user.getUserId());
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Approve company vendor
+    public boolean approveCompanyVendor(String vendorId) {
+        String sql = "UPDATE company_vendors SET account_status = 'approved' WHERE vendor_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, vendorId);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Reject company vendor
+    public boolean rejectCompanyVendor(String vendorId) {
+        String sql = "UPDATE company_vendors SET account_status = 'rejected' WHERE vendor_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, vendorId);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Approve retail vendor
+    public boolean approveRetailVendor(String vendorId) {
+        String sql = "UPDATE retail_vendors SET account_status = 'approved' WHERE vendor_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, vendorId);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Reject retail vendor
+    public boolean rejectRetailVendor(String vendorId) {
+        String sql = "UPDATE retail_vendors SET account_status = 'rejected' WHERE vendor_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, vendorId);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Check if vendor is approved
+    public boolean isVendorApproved(String vendorId, String vendorType) {
+        String sql = vendorType.equals("company") 
+            ? "SELECT account_status FROM company_vendors WHERE vendor_id = ?"
+            : "SELECT account_status FROM retail_vendors WHERE vendor_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, vendorId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return "approved".equals(rs.getString("account_status"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Add product by vendor
+    public boolean addProductByVendor(String productId, String name, String description, double price, 
+                                     String unit, String category, String imageUrl, String vendorId) {
+        String sql = "INSERT INTO products (product_id, name, description, price, unit, category, image_url, recommendation_count) VALUES (?, ?, ?, ?, ?, ?, ?, 0)";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, productId);
+            pstmt.setString(2, name);
+            pstmt.setString(3, description);
+            pstmt.setDouble(4, price);
+            pstmt.setString(5, unit);
+            pstmt.setString(6, category);
+            pstmt.setString(7, imageUrl);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

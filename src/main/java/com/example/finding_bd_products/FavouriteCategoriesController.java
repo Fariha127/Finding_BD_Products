@@ -49,7 +49,32 @@ public class FavouriteCategoriesController {
     @FXML
     public void initialize() {
         dbManager = DatabaseManager.getInstance();
-        loadFavouriteCategories();
+        if (UserSession.getInstance().isLoggedIn()) {
+            loadFavouriteCategories();
+        } else {
+            showEmptyState();
+        }
+        
+        // Hide login/signup buttons if user or vendor is logged in
+        if (UserSession.getInstance().isLoggedIn() || VendorSession.getInstance().isLoggedIn()) {
+            if (loginBtn != null) {
+                loginBtn.setVisible(false);
+                loginBtn.setManaged(false);
+            }
+            if (signupBtn != null) {
+                signupBtn.setVisible(false);
+                signupBtn.setManaged(false);
+            }
+        }
+    }
+
+    private void showEmptyState() {
+        categoriesGrid.getChildren().clear();
+        Label emptyLabel = new Label("Please log in to view your favourite categories.");
+        emptyLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: #888888; -fx-padding: 50;");
+        VBox emptyBox = new VBox(emptyLabel);
+        emptyBox.setStyle("-fx-alignment: center;");
+        categoriesGrid.add(emptyBox, 0, 0, 3, 1);
     }
 
     private void loadFavouriteCategories() {
