@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.finding_bd_products.SignupUserController">
+    <VBox alignment="TOP_CENTER" spacing="20.0" style="-fx-background-color: linear-gradient(to bottom, #2E7D32, #4CAF50);">
+        <padding>
+            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0"/>
+        </padding>
+
+        <!-- Back Button -->
+        <HBox alignment="TOP_LEFT">
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: rgba(255, 255, 255, 0.2); -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand; -fx-padding: 8 15 8 15; -fx-border-color: white; -fx-border-width: 1.5; -fx-border-radius: 5;" text="← Back to Login" />
+        </HBox>
+
+        <!-- Title -->
+        <Text text="User Sign Up" style="-fx-fill: white;">
+            <font>
+                <Font name="System Bold" size="28.0"/>
+            </font>
+        </Text>
+
+        <Text text="Create your account to explore BD Products" style="-fx-fill: white;">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Text>
+
+        <VBox spacing="15.0" alignment="CENTER" maxWidth="500">
+            
+            <!-- Full Name -->
+            <VBox spacing="5.0">
+                <Label text="Full Name: *" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <TextField fx:id="fullNameField" promptText="Enter your full name" prefWidth="500" style="-fx-background-color: #C9F6C1; -fx-text-fill: #52544F; -fx-prompt-text-fill: #979A93;"/>
+            </VBox>
+
+            <!-- Email -->
+            <VBox spacing="5.0">
+                <Label text="Email: *" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <TextField fx:id="emailField" promptText="Enter email address" prefWidth="500" style="-fx-background-color: #C9F6C1; -fx-text-fill: #52544F; -fx-prompt-text-fill: #979A93;"/>
+            </VBox>
+
+            <!-- Password -->
+            <VBox spacing="5.0">
+                <Label text="Password: *" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <PasswordField fx:id="passwordField" promptText="Enter password" prefWidth="500" style="-fx-background-color: #C9F6C1; -fx-text-fill: #52544F; -fx-prompt-text-fill: #979A93;"/>
+            </VBox>
+
+            <!-- Confirm Password -->
+            <VBox spacing="5.0">
+                <Label text="Confirm Password: *" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <PasswordField fx:id="confirmPasswordField" promptText="Confirm password" prefWidth="500" style="-fx-background-color: #C9F6C1; -fx-text-fill: #52544F; -fx-prompt-text-fill: #979A93;"/>
+            </VBox>
+
+            <!-- Phone Number -->
+            <VBox spacing="5.0">
+                <Label text="Phone Number: *" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <TextField fx:id="phoneField" promptText="e.g., 01712345678" prefWidth="500" style="-fx-background-color: #C9F6C1; -fx-text-fill: #52544F; -fx-prompt-text-fill: #979A93;"/>
+            </VBox>
+
+            <!-- Date of Birth -->
+            <VBox spacing="5.0">
+                <Label text="Date of Birth: *" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <DatePicker fx:id="dobPicker" promptText="Select your date of birth" prefWidth="500" style="-fx-background-color: #C9F6C1;"/>
+            </VBox>
+
+            <!-- Gender -->
+            <VBox spacing="5.0">
+                <Label text="Gender: *" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <ComboBox fx:id="genderCombo" prefWidth="500" style="-fx-background-color: #C9F6C1;"/>
+            </VBox>
+
+            <!-- City (Optional) -->
+            <VBox spacing="5.0">
+                <Label text="City/District:" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <TextField fx:id="cityField" promptText="e.g., Dhaka (Optional)" prefWidth="500" style="-fx-background-color: #C9F6C1; -fx-text-fill: #52544F; -fx-prompt-text-fill: #979A93;"/>
+            </VBox>
+
+            <!-- Error/Success Label -->
+            <Label fx:id="messageLabel" wrapText="true" maxWidth="500" style="-fx-font-size: 12px; -fx-text-fill: #FFCCCC;"/>
+
+            <!-- Buttons -->
+            <HBox spacing="20.0" alignment="CENTER">
+                <Button text="Register" onAction="#handleRegister" prefWidth="150" style="-fx-background-color: linear-gradient(to bottom right, #FF6B35, #F7931E); -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10px; -fx-background-radius: 5;"/>
+                <Button text="Back to Login" onAction="#goToLogin" prefWidth="150" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10px; -fx-background-radius: 5;"/>
+            </HBox>
+
+            <Text text="* Required fields" style="-fx-fill: white;">
+                <font>
+                    <Font size="12.0"/>
+                </font>
+            </Text>
+        </VBox>
+    </VBox>
+</ScrollPane>
