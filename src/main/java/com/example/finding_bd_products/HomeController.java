@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
@@ -26,6 +27,9 @@ import java.io.IOException;
 public class HomeController {
     @FXML
     private TextField searchField;
+
+    @FXML
+    private Hyperlink viewAllLink;
 
     @FXML
     private Button searchButton;
@@ -147,6 +151,19 @@ public class HomeController {
     @FXML
     protected void onSearch() {
         String searchText = searchField.getText();
+    }
+    
+    @FXML
+    private void onViewAllProducts() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AllProducts.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) viewAllLink.getScene().getWindow();
+            stage.getScene().setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Navigation Error", "Could not load All Products page.");
+        }
     }
     
     @FXML
@@ -405,6 +422,14 @@ public class HomeController {
         alert.setTitle("Login Required");
         alert.setHeaderText("You need to log in");
         alert.setContentText("Please log in to perform this action.");
+        alert.showAndWait();
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
         alert.showAndWait();
     }
 }

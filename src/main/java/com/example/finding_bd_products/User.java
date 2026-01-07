@@ -10,14 +10,13 @@ public class User {
     private String gender;
     private String city;
     private String profilePicture;
-    private String accountStatus; // "pending", "approved", "rejected"
     private String userType; // "user", "company_vendor", "retail_vendor", "admin"
 
     public User() {
     }
 
     public User(String userId, String fullName, String email, String password, String phoneNumber, 
-                String dateOfBirth, String gender, String city, String userType, String accountStatus) {
+                String dateOfBirth, String gender, String city, String userType) {
         this.userId = userId;
         this.fullName = fullName;
         this.email = email;
@@ -27,7 +26,6 @@ public class User {
         this.gender = gender;
         this.city = city;
         this.userType = userType;
-        this.accountStatus = accountStatus;
     }
 
     // Getters and Setters
@@ -101,14 +99,6 @@ public class User {
 
     public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
-    }
-
-    public String getAccountStatus() {
-        return accountStatus;
-    }
-
-    public void setAccountStatus(String accountStatus) {
-        this.accountStatus = accountStatus;
     }
 
     public String getUserType() {

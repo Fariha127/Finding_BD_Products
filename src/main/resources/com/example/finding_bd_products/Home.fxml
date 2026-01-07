@@ -73,7 +73,7 @@
                         <Button fx:id="categoriesBtn" mnemonicParsing="false" onAction="#showCategories" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: white; -fx-text-fill: #708090; -fx-font-size: 14px; -fx-background-radius: 5; -fx-border-color: #E0E0E0; -fx-border-radius: 5; -fx-cursor: hand; -fx-font-weight: bold;" text="Product Categories" />
                         <Button fx:id="newlyAddedBtn" mnemonicParsing="false" onAction="#showNewlyAdded" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-text-fill: #708090; -fx-font-size: 14px; -fx-cursor: hand; -fx-border-radius: 5; -fx-border-color: #E0E0E0; -fx-font-weight: bold;" text="Newly Added" />
                         <Button fx:id="favouritesBtn" mnemonicParsing="false" onAction="#showFavourites" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-background-radius: 5; -fx-border-radius: 5; -fx-text-fill: #708090; -fx-font-size: 14px; -fx-font-weight: bold;" text="My Favourites" />
-                        <Button fx:id="favouriteCategoriesBtn" mnemonicParsing="false" onAction="#showFavouriteCategories" prefHeight="40.0" prefWidth="190.0" style="-fx-background-color: white; -fx-cursor: hand; -fx-background-radius: 5; -fx-text-fill: #708090; -fx-font-size: 14px; -fx-font-weight: bold;" text="Favourite Categories">
+                        <Button fx:id="favouriteCategoriesBtn" mnemonicParsing="false" onAction="#showFavouriteCategories" prefHeight="40.0" prefWidth="190.0" style="-fx-background-color: white; -fx-cursor: hand; -fx-background-radius: 5; -fx-text-fill: #708090; -fx-font-size: 14px; -fx-font-weight: bold; -fx-border-color: #E0E0E0; -fx-border-radius: 5;" text="Favourite Categories">
                             <font>
                                 <Font size="14.0" />
                             </font></Button>
@@ -152,7 +152,7 @@
                                                 <Font name="System Bold" size="20.0" />
                                             </font>
                                         </Label>
-                                        <Hyperlink text="View all" textFill="#2e7d32" />
+                                        <Hyperlink fx:id="viewAllLink" text="View all" textFill="#2e7d32" onAction="#onViewAllProducts" />
                                         <Region prefHeight="200.0" prefWidth="200.0" />
                                     </children>
                                 </HBox>

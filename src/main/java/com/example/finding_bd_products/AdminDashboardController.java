@@ -22,8 +22,6 @@ public class AdminDashboardController {
     @FXML private TableColumn<User, String> userEmailColumn;
     @FXML private TableColumn<User, String> userPhoneColumn;
     @FXML private TableColumn<User, String> userCityColumn;
-    @FXML private TableColumn<User, String> userStatusColumn;
-    @FXML private TableColumn<User, Void> userActionColumn;
 
     // Company Vendors Table
     @FXML private TableView<CompanyVendor> companyVendorsTable;
@@ -45,6 +43,17 @@ public class AdminDashboardController {
     @FXML private TableColumn<RetailVendor, String> retailStatusColumn;
     @FXML private TableColumn<RetailVendor, Void> retailActionColumn;
 
+    // Products Table
+    @FXML private TableView<Product> productsTable;
+    @FXML private TableColumn<Product, String> productIdColumn;
+    @FXML private TableColumn<Product, String> productNameColumn;
+    @FXML private TableColumn<Product, String> productDescColumn;
+    @FXML private TableColumn<Product, String> productPriceColumn;
+    @FXML private TableColumn<Product, String> productUnitColumn;
+    @FXML private TableColumn<Product, String> productCategoryColumn;
+    @FXML private TableColumn<Product, String> productVendorColumn;
+    @FXML private TableColumn<Product, Void> productActionColumn;
+
     private DatabaseManager dbManager;
 
     @FXML
@@ -54,6 +63,7 @@ public class AdminDashboardController {
         setupUsersTable();
         setupCompanyVendorsTable();
         setupRetailVendorsTable();
+        setupProductsTable();
         
         loadAllData();
     }
@@ -64,45 +74,6 @@ public class AdminDashboardController {
         userEmailColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getEmail()));
         userPhoneColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPhoneNumber()));
         userCityColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCity()));
-        userStatusColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAccountStatus()));
-        
-        userActionColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button approveBtn = new Button("Approve");
-            private final Button rejectBtn = new Button("Reject");
-            private final HBox buttons = new HBox(5, approveBtn, rejectBtn);
-
-            {
-                approveBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 10;");
-                rejectBtn.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-padding: 5 10;");
-                
-                approveBtn.setOnAction(event -> {
-                    User user = getTableView().getItems().get(getIndex());
-                    handleApproveUser(user);
-                });
-                
-                rejectBtn.setOnAction(event -> {
-                    User user = getTableView().getItems().get(getIndex());
-                    handleRejectUser(user);
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    User user = getTableView().getItems().get(getIndex());
-                    if ("pending".equals(user.getAccountStatus())) {
-                        setGraphic(buttons);
-                    } else {
-                        Label statusLabel = new Label(user.getAccountStatus().toUpperCase());
-                        statusLabel.setStyle("-fx-font-weight: bold;");
-                        setGraphic(statusLabel);
-                    }
-                }
-            }
-        });
     }
 
     private void setupCompanyVendorsTable() {
@@ -199,10 +170,52 @@ public class AdminDashboardController {
         });
     }
 
+    private void setupProductsTable() {
+        productIdColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getProductId()));
+        productNameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
+        productDescColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDescription()));
+        productPriceColumn.setCellValueFactory(data -> new SimpleStringProperty(String.format("%.2f", data.getValue().getPrice())));
+        productUnitColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getUnit()));
+        productCategoryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCategory()));
+        productVendorColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVendorId()));
+        
+        productActionColumn.setCellFactory(param -> new TableCell<>() {
+            private final Button approveBtn = new Button("Approve");
+            private final Button rejectBtn = new Button("Reject");
+            private final HBox buttons = new HBox(5, approveBtn, rejectBtn);
+
+            {
+                approveBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 10;");
+                rejectBtn.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-padding: 5 10;");
+                
+                approveBtn.setOnAction(event -> {
+                    Product product = getTableView().getItems().get(getIndex());
+                    handleApproveProduct(product);
+                });
+                
+                rejectBtn.setOnAction(event -> {
+                    Product product = getTableView().getItems().get(getIndex());
+                    handleRejectProduct(product);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(buttons);
+                }
+            }
+        });
+    }
+
     private void loadAllData() {
         refreshUsers();
         refreshCompanyVendors();
         refreshRetailVendors();
+        refreshProducts();
     }
 
     @FXML
@@ -223,40 +236,10 @@ public class AdminDashboardController {
         retailVendorsTable.setItems(vendors);
     }
 
-    private void handleApproveUser(User user) {
-        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Confirm Approval");
-        confirmAlert.setHeaderText("Approve User Registration");
-        confirmAlert.setContentText("Are you sure you want to approve " + user.getFullName() + "?");
-        
-        confirmAlert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                if (dbManager.approveUser(user.getUserId())) {
-                    showAlert(Alert.AlertType.INFORMATION, "Success", "User approved successfully!");
-                    refreshUsers();
-                } else {
-                    showAlert(Alert.AlertType.ERROR, "Error", "Failed to approve user.");
-                }
-            }
-        });
-    }
-
-    private void handleRejectUser(User user) {
-        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Confirm Rejection");
-        confirmAlert.setHeaderText("Reject User Registration");
-        confirmAlert.setContentText("Are you sure you want to reject " + user.getFullName() + "?");
-        
-        confirmAlert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                if (dbManager.rejectUser(user.getUserId())) {
-                    showAlert(Alert.AlertType.INFORMATION, "Success", "User rejected.");
-                    refreshUsers();
-                } else {
-                    showAlert(Alert.AlertType.ERROR, "Error", "Failed to reject user.");
-                }
-            }
-        });
+    @FXML
+    private void refreshProducts() {
+        ObservableList<Product> products = FXCollections.observableArrayList(dbManager.getPendingProducts());
+        productsTable.setItems(products);
     }
 
     private void handleApproveCompanyVendor(CompanyVendor vendor) {

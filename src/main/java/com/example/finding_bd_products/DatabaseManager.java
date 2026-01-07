@@ -38,7 +38,9 @@ public class DatabaseManager {
                     category TEXT,
                     image_url TEXT,
                     vendor_id TEXT,
-                    recommendation_count INTEGER DEFAULT 0
+                    recommendation_count INTEGER DEFAULT 0,
+                    approval_status TEXT DEFAULT 'pending',
+                    rejection_reason TEXT
                 )
                 """;
             stmt.execute(createProductsTable);
@@ -83,7 +85,6 @@ public class DatabaseManager {
                     gender TEXT,
                     city TEXT,
                     profile_picture TEXT,
-                    account_status TEXT DEFAULT 'pending',
                     user_type TEXT DEFAULT 'user'
                 )
                 """;
@@ -460,7 +461,7 @@ public class DatabaseManager {
 
     public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
-        String sql = "SELECT * FROM products";
+        String sql = "SELECT * FROM products WHERE approval_status = 'approved'";
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -485,7 +486,7 @@ public class DatabaseManager {
 
     public List<Product> getProductsByCategory(String category) {
         List<Product> products = new ArrayList<>();
-        String sql = "SELECT * FROM products WHERE category = ?";
+        String sql = "SELECT * FROM products WHERE category = ? AND approval_status = 'approved'";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, category);
@@ -540,6 +541,60 @@ public class DatabaseManager {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    // Product Approval Methods
+    public List<Product> getPendingProducts() {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT * FROM products WHERE approval_status = 'pending'";
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                Product product = new Product(
+                        rs.getString("product_id"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getDouble("price"),
+                        rs.getString("unit"),
+                        rs.getString("category"),
+                        rs.getString("image_url")
+                );
+                product.setVendorId(rs.getString("vendor_id"));
+                product.setRecommendationCount(rs.getInt("recommendation_count"));
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
+
+    public boolean approveProduct(String productId) {
+        String sql = "UPDATE products SET approval_status = 'approved', rejection_reason = NULL WHERE product_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, productId);
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean rejectProduct(String productId, String reason) {
+        String sql = "UPDATE products SET approval_status = 'rejected', rejection_reason = ? WHERE product_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, reason);
+            pstmt.setString(2, productId);
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -741,7 +796,7 @@ public class DatabaseManager {
 
     // User Registration
     public boolean registerUser(User user) {
-        String sql = "INSERT INTO users (user_id, full_name, email, password, phone_number, date_of_birth, gender, city, account_status, user_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (user_id, full_name, email, password, phone_number, date_of_birth, gender, city, user_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, user.getUserId());
@@ -752,8 +807,7 @@ public class DatabaseManager {
             pstmt.setString(6, user.getDateOfBirth());
             pstmt.setString(7, user.getGender());
             pstmt.setString(8, user.getCity());
-            pstmt.setString(9, "pending");
-            pstmt.setString(10, "user");
+            pstmt.setString(9, "user");
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -780,7 +834,7 @@ public class DatabaseManager {
 
     // User Login
     public User authenticateUser(String email, String password) {
-        String sql = "SELECT * FROM users WHERE email = ? AND password = ? AND account_status = 'approved'";
+        String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, email);
@@ -796,8 +850,7 @@ public class DatabaseManager {
                     rs.getString("date_of_birth"),
                     rs.getString("gender"),
                     rs.getString("city"),
-                    rs.getString("user_type"),
-                    rs.getString("account_status")
+                    rs.getString("user_type")
                 );
             }
         } catch (SQLException e) {
@@ -917,7 +970,7 @@ public class DatabaseManager {
     // Get all users
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT * FROM users ORDER BY account_status, full_name";
+        String sql = "SELECT * FROM users ORDER BY full_name";
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -931,8 +984,7 @@ public class DatabaseManager {
                     rs.getString("date_of_birth"),
                     rs.getString("gender"),
                     rs.getString("city"),
-                    rs.getString("user_type"),
-                    rs.getString("account_status")
+                    rs.getString("user_type")
                 ));
             }
         } catch (SQLException e) {
@@ -998,31 +1050,8 @@ public class DatabaseManager {
         return vendors;
     }
 
-    // Approve user
-    public boolean approveUser(String userId) {
-        String sql = "UPDATE users SET account_status = 'approved' WHERE user_id = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, userId);
-            return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    // Reject user
-    public boolean rejectUser(String userId) {
-        String sql = "UPDATE users SET account_status = 'rejected' WHERE user_id = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, userId);
-            return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+    // Note: User approval removed - users are automatically approved upon registration
+    // Admin only approves vendor products, not user accounts
     
     // Update user profile
     public boolean updateUserProfile(User user) {
@@ -1128,6 +1157,20 @@ public class DatabaseManager {
             pstmt.setString(7, imageUrl);
             pstmt.setString(8, vendorId);
             return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Delete user by email
+    public boolean deleteUserByEmail(String email) {
+        String sql = "DELETE FROM users WHERE email = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, email);
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }

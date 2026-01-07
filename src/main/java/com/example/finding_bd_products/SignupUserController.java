@@ -137,11 +137,11 @@ public class SignupUserController {
         }
 
         try {
-            // Create User object with approved status (email already verified)
+            // Create User object (email already verified)
             String userId = "U-" + UUID.randomUUID().toString().substring(0, 8);
             User user = new User(
                 userId, fullName, email, password, phone,
-                dob.toString(), gender, city, "user", "approved"
+                dob.toString(), gender, city, "user"
             );
 
             // Register in database
