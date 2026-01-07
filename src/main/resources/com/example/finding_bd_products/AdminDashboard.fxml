@@ -109,6 +109,7 @@
                                     <TableColumn fx:id="productPriceColumn" text="Price" prefWidth="80"/>
                                     <TableColumn fx:id="productUnitColumn" text="Unit" prefWidth="60"/>
                                     <TableColumn fx:id="productCategoryColumn" text="Category" prefWidth="100"/>
+                                    <TableColumn fx:id="productImageColumn" text="Image" prefWidth="80"/>
                                     <TableColumn fx:id="productVendorColumn" text="Vendor ID" prefWidth="100"/>
                                     <TableColumn fx:id="productActionColumn" text="Actions" prefWidth="150"/>
                                 </columns>

@@ -150,6 +150,31 @@ public class DatabaseManager {
                 }
             }
 
+            // Migrate existing products table to add approval_status column if it doesn't exist
+            try {
+                stmt.execute("ALTER TABLE products ADD COLUMN approval_status TEXT DEFAULT 'pending'");
+                System.out.println("Added approval_status column to products table");
+                // Update all existing products to approved status
+                stmt.execute("UPDATE products SET approval_status = 'approved' WHERE approval_status IS NULL OR approval_status = 'pending'");
+                System.out.println("Updated existing products to approved status");
+            } catch (SQLException e) {
+                // Column already exists, ignore
+                if (!e.getMessage().contains("duplicate column")) {
+                    System.out.println("approval_status column already exists or migration not needed");
+                }
+            }
+
+            // Migrate existing products table to add rejection_reason column if it doesn't exist
+            try {
+                stmt.execute("ALTER TABLE products ADD COLUMN rejection_reason TEXT");
+                System.out.println("Added rejection_reason column to products table");
+            } catch (SQLException e) {
+                // Column already exists, ignore
+                if (!e.getMessage().contains("duplicate column")) {
+                    System.out.println("rejection_reason column already exists or migration not needed");
+                }
+            }
+
             // Create default admin if not exists
             createDefaultAdmin();
 

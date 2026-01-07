@@ -8,6 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -51,6 +53,7 @@ public class AdminDashboardController {
     @FXML private TableColumn<Product, String> productPriceColumn;
     @FXML private TableColumn<Product, String> productUnitColumn;
     @FXML private TableColumn<Product, String> productCategoryColumn;
+    @FXML private TableColumn<Product, Void> productImageColumn;
     @FXML private TableColumn<Product, String> productVendorColumn;
     @FXML private TableColumn<Product, Void> productActionColumn;
 
@@ -178,6 +181,38 @@ public class AdminDashboardController {
         productUnitColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getUnit()));
         productCategoryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCategory()));
         productVendorColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVendorId()));
+        
+        productImageColumn.setCellFactory(param -> new TableCell<>() {
+            private final ImageView imageView = new ImageView();
+
+            {
+                imageView.setFitWidth(60);
+                imageView.setFitHeight(60);
+                imageView.setPreserveRatio(true);
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    Product product = getTableView().getItems().get(getIndex());
+                    String imageUrl = product.getImageUrl();
+                    if (imageUrl != null && !imageUrl.isEmpty()) {
+                        try {
+                            Image image = new Image(getClass().getResourceAsStream("/images/" + imageUrl));
+                            imageView.setImage(image);
+                            setGraphic(imageView);
+                        } catch (Exception e) {
+                            setGraphic(new Label("No Image"));
+                        }
+                    } else {
+                        setGraphic(new Label("No Image"));
+                    }
+                }
+            }
+        });
         
         productActionColumn.setCellFactory(param -> new TableCell<>() {
             private final Button approveBtn = new Button("Approve");
@@ -314,6 +349,46 @@ public class AdminDashboardController {
         });
     }
 
+    private void handleApproveProduct(Product product) {
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirm Approval");
+        confirmAlert.setHeaderText("Approve Product");
+        confirmAlert.setContentText("Are you sure you want to approve '" + product.getName() + "'?");
+        
+        confirmAlert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                if (dbManager.approveProduct(product.getProductId())) {
+                    showAlert(Alert.AlertType.INFORMATION, "Success", "Product approved successfully!");
+                    refreshProducts();
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Error", "Failed to approve product.");
+                }
+            }
+        });
+    }
+
+    private void handleRejectProduct(Product product) {
+        // Create a dialog to get the rejection reason
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Reject Product");
+        dialog.setHeaderText("Reject Product: " + product.getName());
+        dialog.setContentText("Please enter the reason for rejection:");
+        
+        dialog.showAndWait().ifPresent(reason -> {
+            if (reason.trim().isEmpty()) {
+                showAlert(Alert.AlertType.WARNING, "Invalid Input", "Rejection reason cannot be empty.");
+                return;
+            }
+            
+            if (dbManager.rejectProduct(product.getProductId(), reason)) {
+                showAlert(Alert.AlertType.INFORMATION, "Success", "Product rejected.");
+                refreshProducts();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Error", "Failed to reject product.");
+            }
+        });
+    }
+
     @FXML
     private void handleLogout() {
         try {
@@ -321,7 +396,7 @@ public class AdminDashboardController {
             Parent root = loader.load();
             
             Stage stage = (Stage) mainTabPane.getScene().getWindow();
-            stage.setScene(new Scene(root, 900, 700));
+            stage.getScene().setRoot(root);
             stage.setTitle("Deshi Store - Login");
         } catch (Exception e) {
             e.printStackTrace();

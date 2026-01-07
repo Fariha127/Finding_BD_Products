@@ -107,7 +107,7 @@ public class LoginController {
                         loginSuccess = true;
                         redirectPage = "AdminDashboard.fxml";
                     } else {
-                        errorLabel.setText("Invalid admin credentials!");
+                        errorLabel.setText("Incorrect email or password");
                     }
                     break;
 
@@ -118,7 +118,7 @@ public class LoginController {
                         loginSuccess = true;
                         redirectPage = "Home.fxml";
                     } else {
-                        errorLabel.setText("Invalid credentials or account not approved!");
+                        errorLabel.setText("Incorrect email or password");
                     }
                     break;
 
@@ -129,7 +129,7 @@ public class LoginController {
                         loginSuccess = true;
                         redirectPage = "Home.fxml";
                     } else {
-                        errorLabel.setText("Invalid credentials or account not approved!");
+                        errorLabel.setText("Incorrect email or password");
                     }
                     break;
 
@@ -140,7 +140,7 @@ public class LoginController {
                         loginSuccess = true;
                         redirectPage = "Home.fxml";
                     } else {
-                        errorLabel.setText("Invalid credentials or account not approved!");
+                        errorLabel.setText("Incorrect email or password");
                     }
                     break;
 
