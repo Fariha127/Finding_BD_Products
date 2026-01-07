@@ -139,6 +139,20 @@ public class DatabaseManager {
                 """;
             stmt.execute(createAdminTable);
 
+            // Notifications table
+            String createNotificationsTable = """
+                CREATE TABLE IF NOT EXISTS notifications (
+                    notification_id TEXT PRIMARY KEY,
+                    vendor_id TEXT NOT NULL,
+                    product_id TEXT,
+                    message TEXT NOT NULL,
+                    type TEXT NOT NULL,
+                    is_read INTEGER DEFAULT 0,
+                    created_at TEXT NOT NULL
+                )
+                """;
+            stmt.execute(createNotificationsTable);
+
             // Migrate existing products table to add vendor_id column if it doesn't exist
             try {
                 stmt.execute("ALTER TABLE products ADD COLUMN vendor_id TEXT");
@@ -621,6 +635,54 @@ public class DatabaseManager {
             e.printStackTrace();
             return false;
         }
+    }
+
+    // Notification methods
+    public boolean createNotification(String vendorId, String productId, String message, String type) {
+        String sql = "INSERT INTO notifications (notification_id, vendor_id, product_id, message, type, is_read, created_at) VALUES (?, ?, ?, ?, ?, 0, datetime('now'))";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, "notif-" + java.util.UUID.randomUUID().toString().substring(0, 8));
+            pstmt.setString(2, vendorId);
+            pstmt.setString(3, productId);
+            pstmt.setString(4, message);
+            pstmt.setString(5, type);
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public String getVendorIdFromProduct(String productId) {
+        String sql = "SELECT vendor_id FROM products WHERE product_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, productId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("vendor_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String getProductName(String productId) {
+        String sql = "SELECT name FROM products WHERE product_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, productId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // Review related methods

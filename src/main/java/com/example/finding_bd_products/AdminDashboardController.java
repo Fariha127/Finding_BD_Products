@@ -201,14 +201,26 @@ public class AdminDashboardController {
                     String imageUrl = product.getImageUrl();
                     if (imageUrl != null && !imageUrl.isEmpty()) {
                         try {
-                            Image image = new Image(getClass().getResourceAsStream("/images/" + imageUrl));
-                            imageView.setImage(image);
-                            setGraphic(imageView);
+                            java.io.InputStream is = getClass().getResourceAsStream(imageUrl);
+                            if (is != null) {
+                                Image image = new Image(is);
+                                imageView.setImage(image);
+                                setGraphic(imageView);
+                            } else {
+                                Label noImageLabel = new Label("No Image");
+                                noImageLabel.setStyle("-fx-font-size: 10px;");
+                                setGraphic(noImageLabel);
+                            }
                         } catch (Exception e) {
-                            setGraphic(new Label("No Image"));
+                            Label errorLabel = new Label("Error");
+                            errorLabel.setStyle("-fx-font-size: 10px;");
+                            setGraphic(errorLabel);
+                            e.printStackTrace();
                         }
                     } else {
-                        setGraphic(new Label("No Image"));
+                        Label noImageLabel = new Label("No Image");
+                        noImageLabel.setStyle("-fx-font-size: 10px;");
+                        setGraphic(noImageLabel);
                     }
                 }
             }
@@ -358,6 +370,13 @@ public class AdminDashboardController {
         confirmAlert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 if (dbManager.approveProduct(product.getProductId())) {
+                    // Send notification to vendor
+                    String vendorId = dbManager.getVendorIdFromProduct(product.getProductId());
+                    if (vendorId != null) {
+                        String message = "Congratulations! Your product '" + product.getName() + "' has been approved by the admin and is now live on the platform.";
+                        dbManager.createNotification(vendorId, product.getProductId(), message, "approval");
+                    }
+                    
                     showAlert(Alert.AlertType.INFORMATION, "Success", "Product approved successfully!");
                     refreshProducts();
                 } else {
@@ -381,6 +400,13 @@ public class AdminDashboardController {
             }
             
             if (dbManager.rejectProduct(product.getProductId(), reason)) {
+                // Send notification to vendor with rejection reason
+                String vendorId = dbManager.getVendorIdFromProduct(product.getProductId());
+                if (vendorId != null) {
+                    String message = "Your product '" + product.getName() + "' has been rejected by the admin.\n\nReason: " + reason;
+                    dbManager.createNotification(vendorId, product.getProductId(), message, "rejection");
+                }
+                
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Product rejected.");
                 refreshProducts();
             } else {

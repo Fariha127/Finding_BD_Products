@@ -95,6 +95,13 @@
                 </font>
             </Text>
 
+            <!-- Back to Home Button -->
+            <Button text="Back to Home" onAction="#handleBackToHome" prefWidth="200" style="-fx-background-color: #2E7D32; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10px; -fx-background-radius: 5;">
+                <VBox.margin>
+                    <Insets top="10.0"/>
+                </VBox.margin>
+            </Button>
+
         </VBox>
     </VBox>
 </ScrollPane>

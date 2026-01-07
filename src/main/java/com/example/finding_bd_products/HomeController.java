@@ -141,7 +141,7 @@ public class HomeController {
             );
             
             Stage stage = (Stage) addProductBtn.getScene().getWindow();
-            stage.setScene(new Scene(root, 1200, 800));
+            stage.getScene().setRoot(root);
             stage.setTitle("Add Product");
         } catch (IOException e) {
             e.printStackTrace();

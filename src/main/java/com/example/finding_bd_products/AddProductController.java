@@ -11,6 +11,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 public class AddProductController {
@@ -80,14 +85,40 @@ public class AddProductController {
         File selectedFile = fileChooser.showOpenDialog(stage);
         
         if (selectedFile != null) {
-            String imagePath = selectedFile.toURI().toString();
-            imagePathField.setText(imagePath);
-            
-            // Show preview
             try {
-                Image image = new Image(imagePath);
+                // Get file extension
+                String fileName = selectedFile.getName();
+                String extension = fileName.substring(fileName.lastIndexOf("."));
+                
+                // Generate unique filename
+                String uniqueFileName = UUID.randomUUID().toString().substring(0, 8) + extension;
+                
+                // Get the resources/images directory path
+                String resourcesPath = "src/main/resources/images/";
+                Path targetPath = Paths.get(resourcesPath + uniqueFileName);
+                
+                // Create directory if it doesn't exist
+                Files.createDirectories(targetPath.getParent());
+                
+                // Copy file to resources/images folder
+                Files.copy(selectedFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+                
+                // Store the relative path that will work from resources
+                String resourceImagePath = "/images/" + uniqueFileName;
+                imagePathField.setText(resourceImagePath);
+                
+                // Show preview using the original file
+                Image image = new Image(selectedFile.toURI().toString());
                 imagePreview.setImage(image);
+                
+                messageLabel.setText("Image uploaded successfully!");
+                messageLabel.setStyle("-fx-text-fill: green;");
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Error", "Failed to copy image: " + e.getMessage());
             } catch (Exception e) {
+                e.printStackTrace();
                 showAlert(Alert.AlertType.ERROR, "Error", "Failed to load image preview.");
             }
         }
@@ -161,6 +192,21 @@ public class AddProductController {
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to go back: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleBackToHome() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Home.fxml"));
+            Parent root = loader.load();
+            
+            Stage stage = (Stage) productNameField.getScene().getWindow();
+            stage.getScene().setRoot(root);
+            stage.setTitle("Deshi Store - Home");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to go back to home: " + e.getMessage());
         }
     }
 
